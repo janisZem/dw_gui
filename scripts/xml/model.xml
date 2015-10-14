@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_r8csUHDcEeWJdI-YhuK9zg" name="RootElement">
+    <packagedElement xmi:type="uml:Class" xmi:id="_v9ff4HDcEeWJdI-YhuK9zg" name="Complex Requment">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_i88TUHDfEeWJdI-YhuK9zg"/>
+        <nestedClassifier xmi:type="uml:Class" xmi:id="__rkiUHDcEeWJdI-YhuK9zg" name="Simple Requment"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_czca8HDeEeWJdI-YhuK9zg" memberEnd="_czeQIXDeEeWJdI-YhuK9zg _cze3MHDeEeWJdI-YhuK9zg">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_czdpEHDeEeWJdI-YhuK9zg" source="org.eclipse.papyrus">
+            <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_czeQIHDeEeWJdI-YhuK9zg" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_cze3MHDeEeWJdI-YhuK9zg" name="complex requment" type="_v9ff4HDcEeWJdI-YhuK9zg" association="_czca8HDeEeWJdI-YhuK9zg">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sViP0HDeEeWJdI-YhuK9zg"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sVkFAHDeEeWJdI-YhuK9zg" value="*"/>
+        </ownedEnd>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_czeQIXDeEeWJdI-YhuK9zg" name="simple requment" type="__rkiUHDcEeWJdI-YhuK9zg" aggregation="composite" association="_czca8HDeEeWJdI-YhuK9zg">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uWeM0HDeEeWJdI-YhuK9zg"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uWgCAHDeEeWJdI-YhuK9zg" value="*"/>
+        </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_0XMZIHDeEeWJdI-YhuK9zg" name="Comparison">
+        <nestedClassifier xmi:type="uml:Class" xmi:id="_x612AHDfEeWJdI-YhuK9zg" name="value = {>, &lt;, >=, &lt;=,=}"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_bIPn8HDfEeWJdI-YhuK9zg" memberEnd="_bIQ2EXDfEeWJdI-YhuK9zg _bIRdIHDfEeWJdI-YhuK9zg">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_bIQPAHDfEeWJdI-YhuK9zg" source="org.eclipse.papyrus">
+            <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_bIQ2EHDfEeWJdI-YhuK9zg" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_bIRdIHDfEeWJdI-YhuK9zg" name="complex requment" type="_v9ff4HDcEeWJdI-YhuK9zg" association="_bIPn8HDfEeWJdI-YhuK9zg"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_bIQ2EXDfEeWJdI-YhuK9zg" name="comparison" type="_0XMZIHDeEeWJdI-YhuK9zg" aggregation="composite" association="_bIPn8HDfEeWJdI-YhuK9zg"/>
+    </packagedElement>
+</uml:Model>
