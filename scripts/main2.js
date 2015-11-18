@@ -1,43 +1,18 @@
-var cfg = [
-    {
-        id: 'req',
-        name: 'Requirement',
-        parent: null,
-        values: null,
-        action: null
-    },
-    {
-        id: 'simpleReq',
-        name: 'Simple Requirement',
-        parent: ['req'],
-        values: ['>', '<', '>=', '<=', '='],
-        action: 'dropown'
-    },
-    {
-        id: 'complexReq',
-        name: 'Complex Requirement',
-        parent: ['req'],
-        action: null,
-        values: null
-    },
-    {
-        id: 'comp',
-        name: 'Comparison',
-        parent: ['complexReq'],
-        action: 'dropdown',
-        values: ['>', '<', '>=', '<=', '=']
-    }
-];
+
 var MT = {
     drawMenu: function () {
-        $('.multi-level').children().remove();//remove old menu elems
+        $('.multi-level').children().remove(); //remove old menu elems
         console.log(cfg.length);
         for (var i = 0; i < cfg.length; i++) {
-            if (cfg[i].parent === null) { //parent element
+            if (cfg[i].parent === null) { //parent element - root elem
+                console.log(cfg[i]);
                 $('.multi-level').append(' <li class="dropdown-submenu"><a>' + cfg[i].name + '</a>' + MT.findchilds(cfg[i]) + '</li>');
             }
         }
     },
+    /*
+     * Function who find one element childs, returns html string
+     */
     findchilds: function (elem) {
         var childHTML = "";
         var a = "";
@@ -45,7 +20,20 @@ var MT = {
             if (cfg[i].parent) {
                 for (var j = 0; j < cfg[i].parent.length; j++) {
                     if (cfg[i].parent[j] === elem.id) {
-                        a += '<a onclick="MT.doAction(\'' + cfg[i].id + '\')">' + cfg[i].name + '</a>';
+                        var revChilds = MT.findchilds(cfg[i]);
+                        if (revChilds !== "") {
+                            a += '<li class="dropdown-submenu"><a onclick="MT.doAction(\''
+                                    + cfg[i].id + '\')">'
+                                    + cfg[i].name
+                                    + '</a>'
+                                    + MT.findchilds(cfg[i])
+                                    + '</li>';
+                        } else {
+                            a += '<a onclick="MT.doAction(\''
+                                    + cfg[i].id + '\')">'
+                                    + cfg[i].name
+                                    + '</a>';
+                        }
                     }
                 }
                 if (a !== "") {
@@ -75,7 +63,7 @@ var MT = {
                 + ' Izvēlies <span class="caret"></span>  </button>'
                 + ' <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">';
         for (var i = 0; elem.values.length; i++) {
-            html += '<li><a href="#">tes</a></li>';
+            html += '<li><a href="#">test</a></li>';
         }
         html += '  </ul></div>';
     }
