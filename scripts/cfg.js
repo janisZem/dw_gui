@@ -42,10 +42,24 @@ var cfg = [
         values: null
     },
     {
-        id: 'ComplexExpr',
+        id: 'complexExpr',
         name: 'Complex Expresion',
         parent: ['expr'],
         action: null,
+        values: null
+    },
+    {
+        id: 'const',
+        name: 'Constant',
+        parent: ['simpleExpr'],
+        action: 'input',
+        values: null
+    },
+    {
+        id: 'quanData',
+        name: 'Qualifying Data',
+        parent: ['simpleExpr'],
+        action: 'input',
         values: null
     }
 ];
