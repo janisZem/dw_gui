@@ -2,6 +2,7 @@
  * 
  * @var cfg - declare in cfg.js
  */
+
 var MT = {
     drawMenu: function (menuID) {
         $('.dropdown-menu').children().remove(); //remove old menu elems
@@ -52,22 +53,26 @@ var MT = {
     doAction: function (cfgID, menuID) {
         console.log(menuID);
         var elem = MT.findElem(cfgID);
-        MT.checkLevel(elem, menuID); //to remove +
+        //MT.checkLevel(elem, menuID); //to remove +
+        var newLevelID = MT.genID();
+        var html = "";
         switch (elem.action) {
             case "dropdown":
                 {
-                    $('#' + menuID).append(MT.drawDropDown(elem));
+                    html = MT.drawDropDown(elem);
                 }
                 break;
             case "input":
                 {
-                    $('#' + menuID).append(MT.drawInput(elem));
+                    html = MT.drawInput(elem);
                 }
                 break;
             default:
             {
             }
+
         }
+        $('.req-table').append(MT.drawBottomLevel(newLevelID, html));
     },
     findElem: function (id) {
         for (var i = 0; i < cfg.length; i++) {
@@ -95,16 +100,16 @@ var MT = {
                 Math.random().toString(36).substring(2, 15);
     },
     /*
-    * remove menu, if choosen element have not any childs 
-    */
+     * remove menu, if choosen element have not any childs 
+     */
     checkLevel: function (elem, menuID) {
         if (MT.findchilds(elem).length === 0) {
             $('#' + menuID).children('.dropdown-menu-req').remove();
         }
     },
     /*
-    * finds cfg element all childs
-    * return array of childs
+     * finds cfg element all childs
+     * return array of childs
      */
     findchilds: function (elem) {
         var childs = [];
@@ -118,6 +123,9 @@ var MT = {
             }
         }
         return childs;
+    },
+    drawBottomLevel: function (id, html) {
+        return '<tr><td id="' + id + '">' + html + '</td></tr>';
     }
 
 };
