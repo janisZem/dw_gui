@@ -4,39 +4,47 @@
  */
 
 var MT = {
-    drawMenu: function (menuID) {
+    /*drawMenu: function (menuID) {
+     $('.dropdown-menu').children().remove(); //remove old menu elems
+     console.log(menuID);
+     for (var i = 0; i < cfg.length; i++) {
+     if (cfg[i].parent === null) { //parent element - root elem
+     $('.multi-level').append(' <li class="dropdown-submenu"><a>' + cfg[i].name + '</a>' + MT.findchildsHTML(cfg[i], menuID) + '</li>');
+     }
+     }
+     }, */
+    drawMenu: function (menuID, elemID, position) {
+        console.log('im here ' + menuID + ' pos ' + position);
         $('.dropdown-menu').children().remove(); //remove old menu elems
-        console.log(menuID);
-        for (var i = 0; i < cfg.length; i++) {
-            if (cfg[i].parent === null) { //parent element - root elem
-                console.log(cfg[i]);
-                $('.multi-level').append(' <li class="dropdown-submenu"><a>' + cfg[i].name + '</a>' + MT.findchildsHTML(cfg[i], menuID) + '</li>');
-            }
-        }
+        var elem = MT.findElem(elemID);
+        $('.multi-level').append(' <li class="dropdown-submenu"><a>' + elem.name + '</a>' + MT.findchildsHTML(elem, menuID, 0, position) + '</li>');
     },
     /*
      * Function who find one element childs, returns html string
      * Reverse function
      * 
      */
-    findchildsHTML: function (elem, menuID) {
+    findchildsHTML: function (elem, menuID, called, postion) {
+        if (called) { //levels can be add by one
+            return "";
+        }
         var childHTML = "";
         var a = "";
         for (var i = 0; i < cfg.length; i++) {
             if (cfg[i].parent) {
                 for (var j = 0; j < cfg[i].parent.length; j++) { // foreach element parent
                     if (cfg[i].parent[j] === elem.id) {
-                        var revChilds = MT.findchildsHTML(cfg[i], menuID);
+                        var revChilds = MT.findchildsHTML(cfg[i], menuID, 1, postion);
                         if (revChilds !== "") {
                             a += '<li class="dropdown-submenu"><a onclick="MT.doAction(\''
-                                    + cfg[i].id + '\', \'' + menuID + '\')">'
+                                    + cfg[i].id + '\', \'' + menuID + '\', \'' + postion + '\')">'
                                     + cfg[i].name
                                     + '</a>'
                                     + revChilds
                                     + '</li>';
                         } else {
                             a += '<li class="dropdown"><a onclick="MT.doAction(\''
-                                    + cfg[i].id + '\', \'' + menuID + '\')">'
+                                    + cfg[i].id + '\', \'' + menuID + '\', \'' + postion + '\')">'
                                     + cfg[i].name
                                     + '</a></li>';
                         }
@@ -50,7 +58,7 @@ var MT = {
         //console.log(childHTML);
         return childHTML;
     },
-    doAction: function (cfgID, menuID) {
+    doAction: function (cfgID, menuID, position) {
         console.log(menuID);
         var elem = MT.findElem(cfgID);
         //MT.checkLevel(elem, menuID); //to remove +
@@ -69,10 +77,14 @@ var MT = {
                 break;
             default:
             {
+                html = elem.name;
             }
-
         }
-        $('.req-table').append(MT.drawBottomLevel(newLevelID, html));
+        if (position === 'b') {
+            $('.req-table').append(MT.drawBottomLevel(newLevelID, html, cfgID));
+        } else {
+            MT.drawRightLevel();
+        }
     },
     findElem: function (id) {
         for (var i = 0; i < cfg.length; i++) {
@@ -124,8 +136,38 @@ var MT = {
         }
         return childs;
     },
-    drawBottomLevel: function (id, html) {
-        return '<tr><td id="' + id + '">' + html + '</td></tr>';
+    /*
+     * to do - check when draw button, when not (element is in last level)
+     */
+    drawBottomLevel: function (id, html, cfgID) {
+        if (MT.findchilds(MT.findElem(cfgID)).length !== 0) { //if element can be childs, then draw + button
+            return '<tr><td id="' + id + '">'
+                    + html + MT.drawNewButton(id, cfgID, 'b')
+                    + MT.drawNewButton(id, cfgID, 'r ')
+                    + '</td></tr>';
+        } else {
+            return '<tr><td id="' + id + '">' + html + '</td></tr>';
+        }
+    },
+    drawRightLevel: function () {
+        console.log($('.req-table').children('tr'));
+    },
+    findParent: function () {},
+    /*
+     * id - tr ID 
+     * cfgID - cfg element
+     * position - b = bottom, r - right (where explain table)
+     */
+    drawNewButton: function (id, cfgID, postion) {
+        return '   <div class="dropdown dropdown-menu-req">'
+                + '    <a id="dLabel" role="button" data-toggle="dropdown"'
+                + '       class="btn btn-primary"'
+                + '       onclick="MT.drawMenu(\'' + id + '\', \'' + cfgID + '\', \'' + postion + '\')" >'
+                + '        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'
+                + '    </a>'
+                + '    <ul class="dropdown-menu multi-level" role="menu">'
+                + '    </ul>'
+                + '</div>';
     }
 
 };
