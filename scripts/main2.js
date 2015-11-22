@@ -14,7 +14,7 @@ var MT = {
      }
      }, */
     drawMenu: function (menuID, elemID, position) {
-        console.log('im here ' + menuID + ' pos ' + position);
+        // console.log('im here ' + menuID + ' pos ' + position);
         $('.dropdown-menu').children().remove(); //remove old menu elems
         var elem = MT.findElem(elemID);
         $('.multi-level').append(' <li class="dropdown-submenu"><a>' + elem.name + '</a>' + MT.findchildsHTML(elem, menuID, 0, position) + '</li>');
@@ -81,7 +81,9 @@ var MT = {
             }
         }
         if (position === 'b') {
-            $('.req-table').append(MT.drawBottomLevel(newLevelID, html, cfgID));
+            // $('.req-table').append(MT.drawBottomLevel(newLevelID, html, cfgID));
+            MT.TABLE.appendRow(MT.drawBottomLevel(newLevelID, html, cfgID), newLevelID)
+
         } else {
             MT.drawRightLevel();
         }
@@ -141,18 +143,16 @@ var MT = {
      */
     drawBottomLevel: function (id, html, cfgID) {
         if (MT.findchilds(MT.findElem(cfgID)).length !== 0) { //if element can be childs, then draw + button
-            return '<tr><td id="' + id + '">'
-                    + html + MT.drawNewButton(id, cfgID, 'b')
-                    + MT.drawNewButton(id, cfgID, 'r ')
-                    + '</td></tr>';
+            return MT.drawNewButton(id, cfgID, 'b') + MT.drawNewButton(id, cfgID, 'r ') + html;
         } else {
-            return '<tr><td id="' + id + '">' + html + '</td></tr>';
+            return MT.drawNewButton(id, cfgID, 'r ') + html;
         }
     },
     drawRightLevel: function () {
-        console.log($('.req-table').children('tr'));
+        MT.TABLE.appendColumn();
     },
-    findParent: function () {},
+    findParent: function () {
+    },
     /*
      * id - tr ID 
      * cfgID - cfg element
@@ -168,6 +168,61 @@ var MT = {
                 + '    <ul class="dropdown-menu multi-level" role="menu">'
                 + '    </ul>'
                 + '</div>';
-    }
+    },
+    TABLE: {// source http://www.redips.net/javascript/adding-table-rows-and-columns/
+        appendRow: function (html, id) {
+            console.log(html);
+            var tbl = document.getElementById('req_table'), // table reference
+                    row = tbl.insertRow(tbl.rows.length), // append table row
+                    i;
 
+
+            for (i = 0; i < tbl.rows[0].cells.length; i++) {
+                MT.TABLE.createCell(row.insertCell(i), html, 'row', id);
+            }
+            if (tbl.rows[0].cells.length === 0) {
+                MT.TABLE.createCell(row.insertCell(0), html, 'row', id);
+            }
+        },
+        createCell: function (cell, text, style, id) {
+            /*var div = document.createElement('div'), // create DIV element
+             txt = document.createTextNode(text); // create text node
+             div.appendChild(txt);                    // append text node to the DIV
+             div.setAttribute('class', style);        // set DIV class attribute
+             div.setAttribute('className', style);    // set DIV class attribute for IE (?!)
+             cell.appendChild(text);                   // append DIV to the table cell*/
+            cell.id = id;
+            $(cell).append(text);
+        },
+        appendColumn: function () {
+            var tbl = document.getElementById('req_table'), // table reference
+                    i;
+            // open loop for each row and append cell
+            for (i = 0; i < tbl.rows.length; i++) {
+                MT.TABLE.createCell(tbl.rows[i].insertCell(tbl.rows[i].cells.length), i, 'col');
+            }
+        },
+        // delete table rows with index greater then 0
+        deleteRows: function () {
+            var tbl = document.getElementById('req_table'), // table reference
+                    lastRow = tbl.rows.length - 1, // set the last row index
+                    i;
+            // delete rows with index greater then 0
+            for (i = lastRow; i > 0; i--) {
+                tbl.deleteRow(i);
+            }
+        },
+        deleteColumns: function () {
+            var tbl = document.getElementById('req_table'), // table reference
+                    lastCol = tbl.rows[0].cells.length - 1, // set the last column index
+                    i, j;
+            // delete cells with index greater then 0 (for each row)
+            for (i = 0; i < tbl.rows.length; i++) {
+                for (j = lastCol; j > 0; j--) {
+                    tbl.rows[i].deleteCell(j);
+                }
+            }
+        }
+
+    }
 };
