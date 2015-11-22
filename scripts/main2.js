@@ -14,7 +14,7 @@ var MT = {
      }
      }, */
     drawMenu: function (menuID, elemID, position) {
-        // console.log('im here ' + menuID + ' pos ' + position);
+// console.log('im here ' + menuID + ' pos ' + position);
         $('.dropdown-menu').children().remove(); //remove old menu elems
         var elem = MT.findElem(elemID);
         $('.multi-level').append(' <li class="dropdown-submenu"><a>' + elem.name + '</a>' + MT.findchildsHTML(elem, menuID, 0, position) + '</li>');
@@ -67,12 +67,12 @@ var MT = {
         switch (elem.action) {
             case "dropdown":
                 {
-                    html = MT.drawDropDown(elem);
+                    html = elem.name + '<br>' + MT.drawDropDown(elem);
                 }
                 break;
             case "input":
                 {
-                    html = MT.drawInput(elem);
+                    html = elem.name + '<br>' + MT.drawInput(elem);
                 }
                 break;
             default:
@@ -81,11 +81,10 @@ var MT = {
             }
         }
         if (position === 'b') {
-            // $('.req-table').append(MT.drawBottomLevel(newLevelID, html, cfgID));
-            MT.TABLE.appendRow(MT.drawBottomLevel(newLevelID, html, cfgID), newLevelID)
+            MT.TABLE.appendRow(MT.drawBottomLevel(newLevelID, html, cfgID, menuID), newLevelID, elem.id, menuID);
 
         } else {
-            MT.drawRightLevel();
+            MT.drawRightLevel(newLevelID, elem.id, menuID);
         }
     },
     findElem: function (id) {
@@ -95,6 +94,9 @@ var MT = {
             }
         }
     },
+    /*
+     * to do - add submit button
+     */
     drawDropDown: function (elem) {
         var html = '<div class="dropdown">'
                 + '<button class="btn btn-default dropdown-toggle values-dropdown" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'
@@ -141,17 +143,20 @@ var MT = {
     /*
      * to do - check when draw button, when not (element is in last level)
      */
-    drawBottomLevel: function (id, html, cfgID) {
-        if (MT.findchilds(MT.findElem(cfgID)).length !== 0) { //if element can be childs, then draw + button
-            return MT.drawNewButton(id, cfgID, 'b') + MT.drawNewButton(id, cfgID, 'r ') + html;
+    drawBottomLevel: function (id, html, cfgID, parentID) {
+        var parent = MT.findTableParent(parentID);
+        /*
+         * creating right level button need find parent who can have two childs
+         */
+        //console.log('parent ' + parent);
+        if (MT.findchilds(MT.findElem(cfgID)).length !== 0) { //if element can have childs, then draw + button
+            return MT.drawNewButton(id, cfgID, 'b') + MT.drawNewButton(id, parent, 'r ') + html;
         } else {
-            return MT.drawNewButton(id, cfgID, 'r ') + html;
+            return MT.drawNewButton(id, parent, 'r ') + html;
         }
     },
-    drawRightLevel: function () {
-        MT.TABLE.appendColumn();
-    },
-    findParent: function () {
+    drawRightLevel: function (id, className, parentID) {
+        MT.TABLE.appendColumn(id, className, parentID);
     },
     /*
      * id - tr ID 
@@ -159,9 +164,15 @@ var MT = {
      * position - b = bottom, r - right (where explain table)
      */
     drawNewButton: function (id, cfgID, postion) {
+        var className = 'btn-primary';
+        if (postion === 'b') {
+            var className = 'btn-primary';
+        } else {
+            var className = 'btn-danger';
+        }
         return '   <div class="dropdown dropdown-menu-req">'
                 + '    <a id="dLabel" role="button" data-toggle="dropdown"'
-                + '       class="btn btn-primary"'
+                + '       class="btn ' + className + '"'
                 + '       onclick="MT.drawMenu(\'' + id + '\', \'' + cfgID + '\', \'' + postion + '\')" >'
                 + '        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'
                 + '    </a>'
@@ -169,37 +180,70 @@ var MT = {
                 + '    </ul>'
                 + '</div>';
     },
-    TABLE: {// source http://www.redips.net/javascript/adding-table-rows-and-columns/
-        appendRow: function (html, id) {
-            console.log(html);
-            var tbl = document.getElementById('req_table'), // table reference
-                    row = tbl.insertRow(tbl.rows.length), // append table row
-                    i;
+    /*
+     * parentID - td id from which action is called
+     */
+    findTableParent: function (parentID) {
+        // console.log('olol' + parentID);
+        if (parentID === '0_menu') {
+            return MT.findElem('req').id;
+        }
+        var $elem = $('#' + parentID);
+        var cfgElem = MT.findElem($elem.attr('class')); //fix me: can be more than one class
+
+        if ($elem.attr('data-parent') === '0_menu') {
+            return MT.findElem('req').id;
+        }
+
+        var flag = 1;
+        var cfgElem = MT.findElem($('#' + $elem.attr('data-parent')).attr('class'));
+        var parentElem = $elem;
+        while (flag === 1) {
+            if (MT.findchilds(cfgElem).length > 1) {
+                return cfgElem.id;
+            }
+            parentElem = $('#' + parentElem.attr('data-parent'));
+            cfgElem = MT.findElem('#' + parentElem.attr('data-parent').attr('class'));
+        }
+
+        console.log($('#' + $elem.attr('data-parent')).attr('class'));
 
 
-            for (i = 0; i < tbl.rows[0].cells.length; i++) {
-                MT.TABLE.createCell(row.insertCell(i), html, 'row', id);
+        /*
+         if (MT.findchilds(cfgElem).length > 1) { //atleast have two childs
+         return cfgElem.id; //recived elem can be parent
+         }*/
+
+
+
+        // console.log(cfgElem);
+        //console.log($('#' + parentID));
+        //check recived can be parent
+        //skip parent, who have only one child - this
+
+    },
+    TABLE: {// source - http://www.redips.net/javascript/adding-table-rows-and-columns/
+        appendRow: function (html, id, className, parentID) {
+            //console.log(html);
+            var tbl = document.getElementById('req_table');
+            var row = tbl.insertRow(tbl.rows.length);
+            for (var i = 0; i < tbl.rows[0].cells.length; i++) {
+                MT.TABLE.createCell(row.insertCell(i), html, id, className, parentID);
             }
             if (tbl.rows[0].cells.length === 0) {
-                MT.TABLE.createCell(row.insertCell(0), html, 'row', id);
+                MT.TABLE.createCell(row.insertCell(0), html, id, className, parentID);
             }
         },
-        createCell: function (cell, text, style, id) {
-            /*var div = document.createElement('div'), // create DIV element
-             txt = document.createTextNode(text); // create text node
-             div.appendChild(txt);                    // append text node to the DIV
-             div.setAttribute('class', style);        // set DIV class attribute
-             div.setAttribute('className', style);    // set DIV class attribute for IE (?!)
-             cell.appendChild(text);                   // append DIV to the table cell*/
+        createCell: function (cell, text, id, className, parentID) {
             cell.id = id;
             $(cell).append(text);
+            $(cell).attr('class', className);
+            $(cell).attr('data-parent', parentID);
         },
-        appendColumn: function () {
-            var tbl = document.getElementById('req_table'), // table reference
-                    i;
-            // open loop for each row and append cell
-            for (i = 0; i < tbl.rows.length; i++) {
-                MT.TABLE.createCell(tbl.rows[i].insertCell(tbl.rows[i].cells.length), i, 'col');
+        appendColumn: function (id, className, parentID) {
+            var tbl = document.getElementById('req_table');
+            for (var i = 0; i < tbl.rows.length; i++) {
+                MT.TABLE.createCell(tbl.rows[i].insertCell(tbl.rows[i].cells.length), 'insert text', id, className, parentID);
             }
         },
         // delete table rows with index greater then 0
@@ -208,7 +252,7 @@ var MT = {
                     lastRow = tbl.rows.length - 1, // set the last row index
                     i;
             // delete rows with index greater then 0
-            for (i = lastRow; i > 0; i--) {
+            for (var i = lastRow; i > 0; i--) {
                 tbl.deleteRow(i);
             }
         },
@@ -223,6 +267,5 @@ var MT = {
                 }
             }
         }
-
     }
 };
