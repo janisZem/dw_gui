@@ -128,6 +128,7 @@ var MT = {
      * return array of childs
      */
     findchilds: function (elem) {
+        console.log(elem);
         var childs = [];
         for (var i = 0; i < cfg.length; i++) {
             if (cfg[i].parent) {
@@ -194,33 +195,22 @@ var MT = {
         if ($elem.attr('data-parent') === '0_menu') {
             return MT.findElem('req').id;
         }
-
+        if (MT.findchilds(cfgElem).length > 1) { //atleast have two childs
+            return cfgElem.id; //recived elem can be parent
+        }
         var flag = 1;
         var cfgElem = MT.findElem($('#' + $elem.attr('data-parent')).attr('class'));
         var parentElem = $elem;
         while (flag === 1) {
+            if (parentElem.attr('data-parent') === '0_menu') {
+                return 'req';
+            }
             if (MT.findchilds(cfgElem).length > 1) {
                 return cfgElem.id;
             }
             parentElem = $('#' + parentElem.attr('data-parent'));
-            cfgElem = MT.findElem('#' + parentElem.attr('data-parent').attr('class'));
+            cfgElem = MT.findElem(parentElem.attr('class'));
         }
-
-        console.log($('#' + $elem.attr('data-parent')).attr('class'));
-
-
-        /*
-         if (MT.findchilds(cfgElem).length > 1) { //atleast have two childs
-         return cfgElem.id; //recived elem can be parent
-         }*/
-
-
-
-        // console.log(cfgElem);
-        //console.log($('#' + parentID));
-        //check recived can be parent
-        //skip parent, who have only one child - this
-
     },
     TABLE: {// source - http://www.redips.net/javascript/adding-table-rows-and-columns/
         appendRow: function (html, id, className, parentID) {
