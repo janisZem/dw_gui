@@ -156,7 +156,12 @@ var MT = {
             return MT.drawNewButton(id, parent, 'r ') + html;
         }
     },
+    /*
+     * 
+     */
     drawRightLevel: function (id, className, parentID) {
+        var parent = MT.findTableParent(parentID);
+        console.log('parnts: ' + parent);
         MT.TABLE.appendColumn(id, className, parentID);
     },
     /*
@@ -224,16 +229,31 @@ var MT = {
                 MT.TABLE.createCell(row.insertCell(0), html, id, className, parentID);
             }
         },
-        createCell: function (cell, text, id, className, parentID) {
+        createCell: function (cell, text, id, className, parentID, merge) {
+
             cell.id = id;
             $(cell).append(text);
             $(cell).attr('class', className);
             $(cell).attr('data-parent', parentID);
+
         },
+        //limit - number when stop
+        //limit - 1 = have not me merged
         appendColumn: function (id, className, parentID) {
+            var limit = 2;
             var tbl = document.getElementById('req_table');
+            var merged = 0;
             for (var i = 0; i < tbl.rows.length; i++) {
-                MT.TABLE.createCell(tbl.rows[i].insertCell(tbl.rows[i].cells.length), 'insert text', id, className, parentID);
+                if (i < limit) {
+                    var colsapn = $(tbl.rows[i]).children('td').attr('colspan');
+                    if (!colsapn || colsapn < 2) {
+                        colsapn = 1;
+                    }
+                    $(tbl.rows[i]).children('td').attr('colspan', colsapn + 1);
+                } else if (i === limit) {
+                    MT.TABLE.createCell(tbl.rows[i].insertCell(tbl.rows[i].cells.length), 'insert text', id, className, parentID, 0);
+                }
+
             }
         },
         // delete table rows with index greater then 0
