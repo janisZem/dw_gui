@@ -162,7 +162,7 @@ var MT = {
     drawRightLevel: function (id, className, parentID) {
         var parent = MT.findTableParent(parentID);
         console.log('parnts: ' + parent);
-        MT.TABLE.appendColumn(id, className, parentID);
+        MT.TABLE.appendColumn(id, className);
     },
     /*
      * id - tr ID 
@@ -217,6 +217,9 @@ var MT = {
             cfgElem = MT.findElem(parentElem.attr('class'));
         }
     },
+    findLimit: function (id, cfgID) {
+
+    },
     TABLE: {// source - http://www.redips.net/javascript/adding-table-rows-and-columns/
         appendRow: function (html, id, className, parentID) {
             //console.log(html);
@@ -239,11 +242,15 @@ var MT = {
         },
         //limit - number when stop
         //limit - 1 = have not me merged
-        appendColumn: function (id, className, parentID) {
+        appendColumn: function (id, className) {
             var limit = 2;
             var tbl = document.getElementById('req_table');
             var merged = 0;
+            var parentID = '0_menu';
             for (var i = 0; i < tbl.rows.length; i++) {
+                if (i !== 0) {
+                    parentID = $(tbl.rows[i]).prev().children('td').attr('id');
+                }
                 if (i < limit) {
                     var colsapn = $(tbl.rows[i]).children('td').attr('colspan');
                     if (!colsapn || colsapn < 2) {
