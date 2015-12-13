@@ -161,9 +161,30 @@ var MT = {
      */
     drawRightLevel: function (id, className, parentID) {
         var parent = MT.findTableParent(parentID);
+        var limit = 0;
         console.log('parnts: ' + parent);
+        var flag = 0;
+        var elem = MT.findElem($('#' + parentID).attr('class'));
+        console.log('atrastais parent: ' + parent + ' parentID cfgID ' + elem.id + ' parentID ' + parentID);
+        var debug = 0;
+        if ($('#' + parentID).attr('data-parent') !== '0_menu') {
+            while (parent !== elem.id && debug < 50) {
+                parentID = $('#' + parentID).attr('data-parent');
+                debug++;
+                console.log('oo'+debug);
+            }
+            while (parentID === '0_menu' && limit < 50) {//crash handler :D
+                limit++;
+                parentID = $('#' + parentID).attr('data-parent');
+                console.log('aa'+limit);
+            }
+
+        }
+        console.log('limits: ' + limit);
+
         MT.TABLE.appendColumn(id, className);
-    },
+    }
+    ,
     /*
      * id - tr ID 
      * cfgID - cfg element
