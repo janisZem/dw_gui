@@ -4,20 +4,13 @@
  */
 
 var MT = {
-    /*drawMenu: function (menuID) {
-     $('.dropdown-menu').children().remove(); //remove old menu elems
-     console.log(menuID);
-     for (var i = 0; i < cfg.length; i++) {
-     if (cfg[i].parent === null) { //parent element - root elem
-     $('.multi-level').append(' <li class="dropdown-submenu"><a>' + cfg[i].name + '</a>' + MT.findchildsHTML(cfg[i], menuID) + '</li>');
-     }
-     }
-     }, */
     drawMenu: function (menuID, elemID, position) {
 // console.log('im here ' + menuID + ' pos ' + position);
         $('.dropdown-menu').children().remove(); //remove old menu elems
         var elem = MT.findElem(elemID);
-        $('.multi-level').append(' <li class="dropdown-submenu"><a>' + elem.name + '</a>' + MT.findchildsHTML(elem, menuID, 0, position) + '</li>');
+        $('.multi-level').append(' <li class="dropdown-submenu">' +
+                '<a>' + elem.name + '</a>' + MT.findchildsHTML(elem, menuID, 0, position) +
+                '</li>');
     },
     /*
      * Function who find one element childs, returns html string
@@ -59,7 +52,7 @@ var MT = {
         return childHTML;
     },
     doAction: function (cfgID, menuID, position) {
-        console.log(menuID);
+        //console.log(menuID);
         var elem = MT.findElem(cfgID);
         //MT.checkLevel(elem, menuID); //to remove +
         var newLevelID = MT.genID();
@@ -128,7 +121,7 @@ var MT = {
      * return array of childs
      */
     findchilds: function (elem) {
-        console.log(elem);
+        //console.log(elem);
         var childs = [];
         for (var i = 0; i < cfg.length; i++) {
             if (cfg[i].parent) {
@@ -157,31 +150,37 @@ var MT = {
         }
     },
     /*
-     * 
+     * 1.Atrodu zem kura elementa šis elements jāliekt
+     * 2.Meklēju elementa vietu tabulā
      */
     drawRightLevel: function (id, className, parentID) {
+        console.log('drawRightMenu params: id = ' + id + ', className = ' + className + ', parentID = ' + parentID);
+        console.log('parent elem: ' + $('#' + parentID).attr('class'));
         var parent = MT.findTableParent(parentID);
         var limit = 0;
-        console.log('parnts: ' + parent);
+        console.log('cfg parents: ' + parent);
         var flag = 0;
         var elem = MT.findElem($('#' + parentID).attr('class'));
-        console.log('atrastais parent: ' + parent + ' parentID cfgID ' + elem.id + ' parentID ' + parentID);
+        //console.log('atrastais parent: ' + parent + ' parentID cfgID ' + elem.id + ' parentID ' + parentID);
         var debug = 0;
         if ($('#' + parentID).attr('data-parent') !== '0_menu') {
+            console.log(parent + ' ' + elem.id);
             while (parent !== elem.id && debug < 50) {
                 parentID = $('#' + parentID).attr('data-parent');
                 debug++;
-                console.log('oo'+debug);
+                console.log('olol: ' + parentID);
             }
-            while (parentID === '0_menu' && limit < 50) {//crash handler :D
+            while (parentID === '0_menu' || limit < 50) {//limit for error handler
                 limit++;
                 parentID = $('#' + parentID).attr('data-parent');
-                console.log('aa'+limit);
+                console.log('aa' + limit + ' parentID ' + parentID);
             }
 
         }
-        console.log('limits: ' + limit);
-
+        /*
+         need to pass limit from with row start append new row
+         */
+        console.log('limit: ' + limit);
         MT.TABLE.appendColumn(id, className);
     }
     ,
@@ -254,17 +253,16 @@ var MT = {
             }
         },
         createCell: function (cell, text, id, className, parentID, merge) {
-
             cell.id = id;
             $(cell).append(text);
             $(cell).attr('class', className);
             $(cell).attr('data-parent', parentID);
 
         },
-        //limit - number when stop
-        //limit - 1 = have not me merged
+        //limit - from with row append new row
+        //limit - 1 = have not be merged
         appendColumn: function (id, className) {
-            var limit = 2;
+            var limit = 1;
             var tbl = document.getElementById('req_table');
             var merged = 0;
             var parentID = '0_menu';

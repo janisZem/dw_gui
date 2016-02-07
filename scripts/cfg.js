@@ -61,5 +61,13 @@ var cfg = [
         parent: ['simpleExpr'],
         action: 'input',
         values: null
+    },
+    {
+        id: 'arithOper',
+        name: 'Arithmetical Operator',
+        parent: ['complexExpr', 'complexReq'],
+        action: 'dropdown',
+        values: ['+', '-', '*', '/']
     }
+
 ];

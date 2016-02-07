@@ -1,5 +1,6 @@
 .dropdown-submenu {
     position: relative;
+    cursor: pointer;
 }
 
 .dropdown-submenu>.dropdown-menu {
