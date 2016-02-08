@@ -12,7 +12,7 @@ var cfg = [
     {
         id: 'simpleReq',
         name: 'Simple Requirement',
-        parent: ['req'],
+        parent: ['req', 'complexReq'],
         values: null,
         action: 'dropown'
     },

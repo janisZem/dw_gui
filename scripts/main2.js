@@ -51,8 +51,6 @@ var MT = {
         return childHTML;
     },
     doAction: function (cfgID, menuID, position) {
-
-        //console.log(menuID);
         var elem = MT.findElem(cfgID);
         //MT.checkLevel(elem, menuID); //to remove +
         var newLevelID = MT.genID();
@@ -60,12 +58,12 @@ var MT = {
         switch (elem.action) {
             case "dropdown":
                 {
-                    html = elem.name + '<br>' + MT.drawDropDown(elem);
+                    html = elem.name + '<br>' + HTML.drawDropDown(elem);
                 }
                 break;
             case "input":
                 {
-                    html = elem.name + '<br>' + MT.drawInput(elem);
+                    html = elem.name + '<br>' + HTML.drawInput(elem);
                 }
                 break;
             default:
@@ -74,14 +72,20 @@ var MT = {
             }
         }
         if (MT.findchilds(MT.findElem(cfgID)).length !== 0) {
-            MT.CON.newElem(MT.drawNewButton(newLevelID, cfgID, 'b') + html, newLevelID, elem.id, menuID);
-            // MT.TABLE.appendRow(MT.drawNewButton(newLevelID, cfgID, 'b') + html, newLevelID, elem.id, menuID);
+            MT.CON.newElem(html + HTML.drawNewButton(newLevelID, cfgID, 'b'), newLevelID, elem.id, menuID);
         } else {
             MT.CON.newElem(html, newLevelID, elem.id, menuID);
-            // MT.TABLE.appendRow(html, newLevelID, elem.id, menuID);
-
         }
-
+    },
+    submitInput: function (elem) {
+        var $elem = $(elem);
+        $(elem).after($elem.parent().children('input').first().val());
+        $(elem).parent().children('input').hide();
+    },
+    submitDropDown: function (elem) {
+       var $elem = $(elem);
+       $elem.parent().parent().after($elem.text());
+       $elem.parent().parent().parent().children('button').hide();
     },
     findElem: function (id) {
         for (var i = 0; i < cfg.length; i++) {
@@ -89,23 +93,6 @@ var MT = {
                 return cfg[i];
             }
         }
-    },
-    /*
-     * to do - add submit button
-     */
-    drawDropDown: function (elem) {
-        var html = '<div class="dropdown">'
-                + '<button class="btn btn-default dropdown-toggle values-dropdown" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'
-                + ' Izvēlies <span class="caret"></span>  </button>'
-                + ' <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">';
-        for (var i = 0; i < elem.values.length; i++) {
-            html += '<li><a href="">' + elem.values[i] + '</a></li>';
-        }
-        html += '  </ul></div>';
-        return html;
-    },
-    drawInput: function () {
-        return '<input style="width:70%; margin:3px;" type="text" class="form-control" placeholder="">';
     },
     genID: function () {
         return Math.random().toString(36).substring(2, 15) +
@@ -136,23 +123,6 @@ var MT = {
             }
         }
         return childs;
-    },
-    drawNewButton: function (id, cfgID, postion) {
-        var className = 'btn-primary';
-        if (postion === 'b') {
-            var className = 'btn-primary';
-        } else {
-            var className = 'btn-danger';
-        }
-        return '   <div class="dropdown dropdown-menu-req">'
-                + '    <a id="dLabel" role="button" data-toggle="dropdown"'
-                + '       class="btn ' + className + '"'
-                + '       onclick="MT.drawMenu(\'' + id + '\', \'' + cfgID + '\', \'' + postion + '\')" >'
-                + '        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'
-                + '    </a>'
-                + '    <ul class="dropdown-menu multi-level" role="menu">'
-                + '    </ul>'
-                + '</div>';
     },
     CON: {
         /*
