@@ -5,7 +5,6 @@
 
 var MT = {
     drawMenu: function (menuID, elemID, position) {
-// console.log('im here ' + menuID + ' pos ' + position);
         $('.dropdown-menu').children().remove(); //remove old menu elems
         var elem = MT.findElem(elemID);
         $('.multi-level').append(' <li class="dropdown-submenu">' +
@@ -52,6 +51,7 @@ var MT = {
         return childHTML;
     },
     doAction: function (cfgID, menuID, position) {
+
         //console.log(menuID);
         var elem = MT.findElem(cfgID);
         //MT.checkLevel(elem, menuID); //to remove +
@@ -73,26 +73,12 @@ var MT = {
                 html = elem.name;
             }
         }
-        if ($('[data-parent="' + menuID + '"]').length > 0) {
-            var level = 0;
-            var dataParent = menuID;
-            var currentID = newLevelID;
-            while (dataParent !== currentID) {               
-                level++;
-                currentID = dataParent;
-                dataParent = $('#' + dataParent).attr('data-parent');
-                if (currentID === '0_menu')
-                    break;
-            }
-            if (MT.findchilds(MT.findElem(cfgID)).length !== 0) {
-                MT.TABLE.appendColumn(newLevelID, cfgID, level - 1, 0, MT.drawNewButton(newLevelID, cfgID, 'b') + html);
-            } else {
-                MT.TABLE.appendColumn(newLevelID, cfgID, level - 1, 0, html);
-            }
-        } else if (MT.findchilds(MT.findElem(cfgID)).length !== 0) {
-            MT.TABLE.appendRow(MT.drawNewButton(newLevelID, cfgID, 'b') + html, newLevelID, elem.id, menuID);
+        if (MT.findchilds(MT.findElem(cfgID)).length !== 0) {
+            MT.CON.newElem(MT.drawNewButton(newLevelID, cfgID, 'b') + html, newLevelID, elem.id, menuID);
+            // MT.TABLE.appendRow(MT.drawNewButton(newLevelID, cfgID, 'b') + html, newLevelID, elem.id, menuID);
         } else {
-            MT.TABLE.appendRow(html, newLevelID, elem.id, menuID);
+            MT.CON.newElem(html, newLevelID, elem.id, menuID);
+            // MT.TABLE.appendRow(html, newLevelID, elem.id, menuID);
 
         }
 
@@ -168,103 +154,21 @@ var MT = {
                 + '    </ul>'
                 + '</div>';
     },
-    /*
-     * parentID - td id from which action is called
-     */
-    /*findTableParent: function (parentID) {
-        // console.log('olol' + parentID);
-        if (parentID === '0_menu') {
-            return MT.findElem('req').id;
-        }
-        var $elem = $('#' + parentID);
-        var cfgElem = MT.findElem($elem.attr('class')); //fix me: can be more than one class
-
-        if ($elem.attr('data-parent') === '0_menu') {
-            return MT.findElem('req').id;
-        }
-        if (MT.findchilds(cfgElem).length > 1) { //atleast have two childs
-            return cfgElem.id; //recived elem can be parent
-        }
-        var flag = 1;
-        var cfgElem = MT.findElem($('#' + $elem.attr('data-parent')).attr('class'));
-        var parentElem = $elem;
-        while (flag === 1) {
-            if (parentElem.attr('data-parent') === '0_menu') {
-                return 'req';
-            }
-            if (MT.findchilds(cfgElem).length > 1) {
-                return cfgElem.id;
-            }
-            parentElem = $('#' + parentElem.attr('data-parent'));
-            cfgElem = MT.findElem(parentElem.attr('class'));
-        }
-    }, */
-    findLimit: function (id, cfgID) {
-
-    },
-    TABLE: {// source - http://www.redips.net/javascript/adding-table-rows-and-columns/
-        appendRow: function (html, id, className, parentID) {
-            //console.log(html);
-            var tbl = document.getElementById('req_table');
-            var row = tbl.insertRow(tbl.rows.length);
-            for (var i = 0; i < tbl.rows[0].cells.length; i++) {
-                MT.TABLE.createCell(row.insertCell(i), html, id, className, parentID);
-            }
-            if (tbl.rows[0].cells.length === 0) {
-                MT.TABLE.createCell(row.insertCell(0), html, id, className, parentID);
-            }
-        },
-        createCell: function (cell, text, id, className, parentID, merge) {
-            console.log('test123');
-            cell.id = id;
-            $(cell).append(text);
-            $(cell).attr('class', className);
-            $(cell).attr('data-parent', parentID);
-
-        },
-        //limit - from with row append new row
-        //limit - 1 = have not be merged
-        appendColumn: function (id, className, limit, merged, html) {
-
-            var tbl = document.getElementById('req_table');
-
-            var parentID = '0_menu';
-            for (var i = 0; i < tbl.rows.length; i++) {
-                if (i !== 0) {
-                    parentID = $(tbl.rows[i]).prev().children('td').attr('id');
-                }
-                if (i < limit) {
-                    var colsapn = $(tbl.rows[i]).children('td').attr('colspan');
-                    if (!colsapn || colsapn < 2) {
-                        colsapn = 1;
-                    }
-                    $(tbl.rows[i]).children('td').attr('colspan', colsapn + 1);
-                } else if (i === limit) {
-                    MT.TABLE.createCell(tbl.rows[i].insertCell(tbl.rows[i].cells.length), html, id, className, parentID, 0);
-                }
-
-            }
-        },
-        // delete table rows with index greater then 0
-        deleteRows: function () {
-            var tbl = document.getElementById('req_table'), // table reference
-                    lastRow = tbl.rows.length - 1, // set the last row index
-                    i;
-            // delete rows with index greater then 0
-            for (var i = lastRow; i > 0; i--) {
-                tbl.deleteRow(i);
-            }
-        },
-        deleteColumns: function () {
-            var tbl = document.getElementById('req_table'), // table reference
-                    lastCol = tbl.rows[0].cells.length - 1, // set the last column index
-                    i, j;
-            // delete cells with index greater then 0 (for each row)
-            for (i = 0; i < tbl.rows.length; i++) {
-                for (j = lastCol; j > 0; j--) {
-                    tbl.rows[i].deleteCell(j);
-                }
+    CON: {
+        /*
+         * html - div html content
+         * new element id
+         * className - add specific class name 
+         * parentID element parent ID
+         */
+        newElem: function (html, id, className, parentID) {
+            console.log(parentID);
+            if (parentID === '0_menu') {
+                $('#req_master').append(HTML.newClass(html, id, className, parentID));
+            } else {
+                $('#' + parentID).append(HTML.newClass(html, id, className, parentID));
             }
         }
+
     }
 };
