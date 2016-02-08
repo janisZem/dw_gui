@@ -48,6 +48,7 @@
 }
 .req-table{
     width:100%;
+    border-collapse: collapse;
 }
 .dropdown-menu-req{
     display: inline-table;

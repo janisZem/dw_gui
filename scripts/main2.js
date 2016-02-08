@@ -74,35 +74,28 @@ var MT = {
             }
         }
         if ($('[data-parent="' + menuID + '"]').length > 0) {
-            console.log('vairāki bērni');
             var level = 0;
             var dataParent = menuID;
             var currentID = newLevelID;
-            //console.log('dataParent ' + dataParent + ' currentID: ' + currentID);
-            while (dataParent !== currentID) {
-
-                console.log('dataParent ' + dataParent + ' currentID: ' + currentID);
+            while (dataParent !== currentID) {               
                 level++;
                 currentID = dataParent;
                 dataParent = $('#' + dataParent).attr('data-parent');
                 if (currentID === '0_menu')
                     break;
             }
-            MT.TABLE.appendColumn(newLevelID, cfgID, level - 1, 0);
+            if (MT.findchilds(MT.findElem(cfgID)).length !== 0) {
+                MT.TABLE.appendColumn(newLevelID, cfgID, level - 1, 0, MT.drawNewButton(newLevelID, cfgID, 'b') + html);
+            } else {
+                MT.TABLE.appendColumn(newLevelID, cfgID, level - 1, 0, html);
+            }
         } else if (MT.findchilds(MT.findElem(cfgID)).length !== 0) {
-            //return MT.drawNewButton(id, cfgID, 'b') + html;
             MT.TABLE.appendRow(MT.drawNewButton(newLevelID, cfgID, 'b') + html, newLevelID, elem.id, menuID);
         } else {
             MT.TABLE.appendRow(html, newLevelID, elem.id, menuID);
 
         }
 
-        /*if (position === 'b') {
-         MT.TABLE.appendRow(MT.drawBottomLevel(newLevelID, html, cfgID, menuID), newLevelID, elem.id, menuID);
-         
-         } else {
-         MT.drawRightLevel(newLevelID, elem.id, menuID);
-         }*/
     },
     findElem: function (id) {
         for (var i = 0; i < cfg.length; i++) {
@@ -158,57 +151,6 @@ var MT = {
         }
         return childs;
     },
-    /*
-     * to do - check when draw button, when not (element is in last level)
-     */
-    drawBottomLevel: function (id, html, cfgID, parentID) {
-        console.log('test ' + id);
-        /*
-         * Parent element already have child, need add another elem
-         */
-        var level = 0;
-        var dataParent = parentID;
-        var currentID = id;
-        while (dataParent !== currentID) {
-
-            console.log('dataParent ' + dataParent + ' currentID: ' + currentID);
-            level++;
-            currentID = dataParent;
-            dataParent = $('#' + dataParent).attr('data-parent');
-            if (currentID === '0_menu')
-                break;
-        }
-        if ($('[data-parent="' + parentID + '"]').length > 0) {
-            console.log('im here ' + level);
-            MT.TABLE.appendColumn(id, cfgID, level - 1, 0);
-        } else {
-            console.log('olol');
-            if (MT.findchilds(MT.findElem(cfgID)).length !== 0) { //if element can have childs, then draw + button
-                return MT.drawNewButton(id, cfgID, 'b') + html;
-            } else {
-                return html;
-                //return MT.drawNewButton(id, parent, 'b ') + html; //try with one button
-            }
-        }
-    },
-    /*
-     * 1.Atrodu zem kura elementa šis elements jāliekt
-     * 2.Meklēju elementa vietu tabulā
-     */
-    /*drawRightLevel: function (id, className, parentID) {
-     console.log('drawRightMenu params: id = ' + id + ', className = ' + className + ', parentID = ' + parentID);
-     console.log('parent elem: ' + $('#' + parentID).attr('class'));
-     
-     var level = 2;
-     console.log('limit: ' + level);
-     MT.TABLE.appendColumn(id, className, level);
-     }
-     ,*/
-    /*
-     * id - tr ID 
-     * cfgID - cfg element
-     * position - b = bottom, r - right (where explain table)
-     */
     drawNewButton: function (id, cfgID, postion) {
         var className = 'btn-primary';
         if (postion === 'b') {
@@ -229,7 +171,7 @@ var MT = {
     /*
      * parentID - td id from which action is called
      */
-    findTableParent: function (parentID) {
+    /*findTableParent: function (parentID) {
         // console.log('olol' + parentID);
         if (parentID === '0_menu') {
             return MT.findElem('req').id;
@@ -256,7 +198,7 @@ var MT = {
             parentElem = $('#' + parentElem.attr('data-parent'));
             cfgElem = MT.findElem(parentElem.attr('class'));
         }
-    },
+    }, */
     findLimit: function (id, cfgID) {
 
     },
@@ -282,7 +224,7 @@ var MT = {
         },
         //limit - from with row append new row
         //limit - 1 = have not be merged
-        appendColumn: function (id, className, limit, merged) {
+        appendColumn: function (id, className, limit, merged, html) {
 
             var tbl = document.getElementById('req_table');
 
@@ -298,7 +240,7 @@ var MT = {
                     }
                     $(tbl.rows[i]).children('td').attr('colspan', colsapn + 1);
                 } else if (i === limit) {
-                    MT.TABLE.createCell(tbl.rows[i].insertCell(tbl.rows[i].cells.length), 'insert text', id, className, parentID, 0);
+                    MT.TABLE.createCell(tbl.rows[i].insertCell(tbl.rows[i].cells.length), html, id, className, parentID, 0);
                 }
 
             }
