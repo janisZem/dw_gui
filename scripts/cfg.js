@@ -1,3 +1,6 @@
+/*
+ * need some technic to define cardinality
+ */
 var cfg = [
     {
         id: 'req',

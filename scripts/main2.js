@@ -73,12 +73,36 @@ var MT = {
                 html = elem.name;
             }
         }
-        if (position === 'b') {
-            MT.TABLE.appendRow(MT.drawBottomLevel(newLevelID, html, cfgID, menuID), newLevelID, elem.id, menuID);
+        if ($('[data-parent="' + menuID + '"]').length > 0) {
+            console.log('vairāki bērni');
+            var level = 0;
+            var dataParent = menuID;
+            var currentID = newLevelID;
+            //console.log('dataParent ' + dataParent + ' currentID: ' + currentID);
+            while (dataParent !== currentID) {
 
+                console.log('dataParent ' + dataParent + ' currentID: ' + currentID);
+                level++;
+                currentID = dataParent;
+                dataParent = $('#' + dataParent).attr('data-parent');
+                if (currentID === '0_menu')
+                    break;
+            }
+            MT.TABLE.appendColumn(newLevelID, cfgID, level - 1, 0);
+        } else if (MT.findchilds(MT.findElem(cfgID)).length !== 0) {
+            //return MT.drawNewButton(id, cfgID, 'b') + html;
+            MT.TABLE.appendRow(MT.drawNewButton(newLevelID, cfgID, 'b') + html, newLevelID, elem.id, menuID);
         } else {
-            MT.drawRightLevel(newLevelID, elem.id, menuID);
+            MT.TABLE.appendRow(html, newLevelID, elem.id, menuID);
+
         }
+
+        /*if (position === 'b') {
+         MT.TABLE.appendRow(MT.drawBottomLevel(newLevelID, html, cfgID, menuID), newLevelID, elem.id, menuID);
+         
+         } else {
+         MT.drawRightLevel(newLevelID, elem.id, menuID);
+         }*/
     },
     findElem: function (id) {
         for (var i = 0; i < cfg.length; i++) {
@@ -138,33 +162,48 @@ var MT = {
      * to do - check when draw button, when not (element is in last level)
      */
     drawBottomLevel: function (id, html, cfgID, parentID) {
-        var parent = MT.findTableParent(parentID);
+        console.log('test ' + id);
         /*
-         * creating right level button need find parent who can have two childs
+         * Parent element already have child, need add another elem
          */
-        //console.log('parent ' + parent);
-        if (MT.findchilds(MT.findElem(cfgID)).length !== 0) { //if element can have childs, then draw + button
-            return MT.drawNewButton(id, cfgID, 'b') + MT.drawNewButton(id, parent, 'r ') + html;
+        var level = 0;
+        var dataParent = parentID;
+        var currentID = id;
+        while (dataParent !== currentID) {
+
+            console.log('dataParent ' + dataParent + ' currentID: ' + currentID);
+            level++;
+            currentID = dataParent;
+            dataParent = $('#' + dataParent).attr('data-parent');
+            if (currentID === '0_menu')
+                break;
+        }
+        if ($('[data-parent="' + parentID + '"]').length > 0) {
+            console.log('im here ' + level);
+            MT.TABLE.appendColumn(id, cfgID, level - 1, 0);
         } else {
-            return MT.drawNewButton(id, parent, 'r ') + html;
+            console.log('olol');
+            if (MT.findchilds(MT.findElem(cfgID)).length !== 0) { //if element can have childs, then draw + button
+                return MT.drawNewButton(id, cfgID, 'b') + html;
+            } else {
+                return html;
+                //return MT.drawNewButton(id, parent, 'b ') + html; //try with one button
+            }
         }
     },
     /*
      * 1.Atrodu zem kura elementa šis elements jāliekt
      * 2.Meklēju elementa vietu tabulā
      */
-    drawRightLevel: function (id, className, parentID) {
-        console.log('drawRightMenu params: id = ' + id + ', className = ' + className + ', parentID = ' + parentID);
-        console.log('parent elem: ' + $('#' + parentID).attr('class'));
-
-
-        /*
-         need to pass limit from with row start append new row
-         */
-        console.log('limit: ' + limit);
-        MT.TABLE.appendColumn(id, className);
-    }
-    ,
+    /*drawRightLevel: function (id, className, parentID) {
+     console.log('drawRightMenu params: id = ' + id + ', className = ' + className + ', parentID = ' + parentID);
+     console.log('parent elem: ' + $('#' + parentID).attr('class'));
+     
+     var level = 2;
+     console.log('limit: ' + level);
+     MT.TABLE.appendColumn(id, className, level);
+     }
+     ,*/
     /*
      * id - tr ID 
      * cfgID - cfg element
@@ -234,6 +273,7 @@ var MT = {
             }
         },
         createCell: function (cell, text, id, className, parentID, merge) {
+            console.log('test123');
             cell.id = id;
             $(cell).append(text);
             $(cell).attr('class', className);
@@ -242,10 +282,10 @@ var MT = {
         },
         //limit - from with row append new row
         //limit - 1 = have not be merged
-        appendColumn: function (id, className) {
-            var limit = 1;
+        appendColumn: function (id, className, limit, merged) {
+
             var tbl = document.getElementById('req_table');
-            var merged = 0;
+
             var parentID = '0_menu';
             for (var i = 0; i < tbl.rows.length; i++) {
                 if (i !== 0) {
