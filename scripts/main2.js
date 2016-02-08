@@ -156,27 +156,8 @@ var MT = {
     drawRightLevel: function (id, className, parentID) {
         console.log('drawRightMenu params: id = ' + id + ', className = ' + className + ', parentID = ' + parentID);
         console.log('parent elem: ' + $('#' + parentID).attr('class'));
-        var parent = MT.findTableParent(parentID);
-        var limit = 0;
-        console.log('cfg parents: ' + parent);
-        var flag = 0;
-        var elem = MT.findElem($('#' + parentID).attr('class'));
-        //console.log('atrastais parent: ' + parent + ' parentID cfgID ' + elem.id + ' parentID ' + parentID);
-        var debug = 0;
-        if ($('#' + parentID).attr('data-parent') !== '0_menu') {
-            console.log(parent + ' ' + elem.id);
-            while (parent !== elem.id && debug < 50) {
-                parentID = $('#' + parentID).attr('data-parent');
-                debug++;
-                console.log('olol: ' + parentID);
-            }
-            while (parentID === '0_menu' || limit < 50) {//limit for error handler
-                limit++;
-                parentID = $('#' + parentID).attr('data-parent');
-                console.log('aa' + limit + ' parentID ' + parentID);
-            }
 
-        }
+
         /*
          need to pass limit from with row start append new row
          */
