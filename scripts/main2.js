@@ -52,7 +52,6 @@ var MT = {
     },
     doAction: function (cfgID, menuID, position) {
         var elem = MT.findElem(cfgID);
-        //MT.checkLevel(elem, menuID); //to remove +
         var newLevelID = MT.genID();
         var html = "";
         switch (elem.action) {
@@ -79,7 +78,12 @@ var MT = {
     },
     submitInput: function (elem) {
         var $elem = $(elem);
-        $(elem).after($elem.parent().children('input').first().val());
+        var val = $elem.parent().children('input').first().val();
+        if(val === ''){
+            alert('No value insert! Please insert some value.');
+            return;
+        }
+        $(elem).after(val);
         $(elem).parent().children('input').hide();
     },
     submitDropDown: function (elem) {

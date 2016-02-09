@@ -1,3 +1,7 @@
+.container{
+    width:6000px !important;
+
+}
 .dropdown-submenu {
     position: relative;
     cursor: pointer;

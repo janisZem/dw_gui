@@ -19,14 +19,14 @@ var cfg = [
     {
         id: 'complexReq',
         name: 'Complex Requirement',
-        parent: ['req'],
+        parent: ['req', 'complexReq'],
         action: null,
         values: null
     },
     {
         id: 'comp',
         name: 'Comparison',
-        parent: ['complexReq'],
+        parent: ['complexReq', 'simpleCond'],
         action: 'dropdown',
         values: ['>', '<', '>=', '<=', '=']
     },
@@ -40,7 +40,7 @@ var cfg = [
     {
         id: 'simpleExpr',
         name: 'Simple Expresion',
-        parent: ['expr'],
+        parent: ['expr', 'simpleCond'],
         action: null,
         values: null
     },
@@ -59,9 +59,15 @@ var cfg = [
         values: null
     },
     {
-        id: 'quanData',
+        id: 'qualData',
         name: 'Qualifying Data',
-        parent: ['simpleExpr'],
+        parent: ['simpleExpr', 'object'],
+        action: 'input',
+        values: null
+    }, {
+        id: 'quanData',
+        name: 'Quantifying Data',
+        parent: ['object'],
         action: 'input',
         values: null
     },
@@ -71,6 +77,76 @@ var cfg = [
         parent: ['complexExpr', 'complexReq'],
         action: 'dropdown',
         values: ['+', '-', '*', '/']
+    },
+    {
+        id: 'operation',
+        name: 'Operation',
+        parent: ['simpleReq'],
+        action: null,
+        values: null
+    },
+    {
+        id: 'action',
+        name: 'Action',
+        parent: ['operation'],
+        action: null,
+        values: null
+    },
+    {
+        id: 'aggr',
+        name: 'Aggregation',
+        parent: ['action'],
+        action: 'dropdown',
+        values: ['count', 'sum', 'avarage']
+    },
+    {
+        id: 'refin',
+        name: 'Refinement',
+        parent: ['action'],
+        action: 'dropdown',
+        values: ['show']
+    },
+    {
+        id: 'object',
+        name: 'Object',
+        parent: ['simpleReq'],
+        action: null,
+        values: null
+    },
+    {
+        id: 'typifiedCond',
+        name: 'Typified Condition',
+        parent: ['simpleReq'],
+        action: null,
+        values: null
+    },
+    {
+        id: 'condType',
+        name: 'Condition Type',
+        parent: ['typifiedCond'],
+        action: 'dropdown',
+        values: ['where']
+    },
+    {
+        id: 'complexCond',
+        name: 'Complex Condition',
+        parent: ['typifiedCond'],
+        action: null,
+        values: null
+    },
+    {
+        id: 'simpleCond',
+        name: 'Simple Condition',
+        parent: ['complexCond'],
+        action: null,
+        values: null
+    },
+    {
+        id: 'logicalOper',
+        name: 'Logical Operator',
+        parent: ['complexCond'],
+        action: 'dropdown',
+        values: ['or', 'and', 'not']
     }
 
 ];
