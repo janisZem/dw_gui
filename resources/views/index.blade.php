@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{!! csrf_token() !!}" />
         <title>MT</title>
 
 
@@ -21,7 +22,8 @@
                 </a>
                 <ul class="dropdown-menu multi-level" role="menu">
                 </ul>
-            </div>     
+            </div>
+            <input onclick="STORE.store()" class="btn btn-default" type="submit" value="Save requirement">
             <div id="req_master">
 
             </div>
@@ -36,5 +38,6 @@
         <script src="scripts/html_elements.js" type="text/javascript"></script>
         <script src="scripts/cfg.js" type="text/javascript"></script>
         <script src="scripts/main2.js" type="text/javascript"></script>
+        <script src="scripts/store_req.js" type="text/javascript"></script>
     </body>
 </html>

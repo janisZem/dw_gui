@@ -40,5 +40,5 @@ var HTML = {
                 + '    <ul class="dropdown-menu multi-level" role="menu">'
                 + '    </ul>'
                 + '</div>';
-    },
+    }
 };
