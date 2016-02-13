@@ -84,13 +84,17 @@ var MT = {
             return;
         }
         $(elem).after(val);
+        var id = $elem.parent().parent().attr('id');
+        $elem.parent().parent().attr('data-value-' + id, val);
+        console.log(id);
+        console.log($elem.parent().parent());
         $(elem).parent().children('input').hide();
     },
     submitDropDown: function (elem) {
         var $elem = $(elem);
-        console.log($elem);
+        var id =  $elem.parent().parent().parent().parent().parent().attr('id');
+        $elem.parent().parent().parent().attr('data-value-' + id, $elem.text());
         $elem.parent().parent().after($elem.text());
-        $elem.parent().parent().parent().attr('data-value', $elem.text());
         $elem.parent().parent().parent().children('button').hide();
     },
     findElem: function (id) {

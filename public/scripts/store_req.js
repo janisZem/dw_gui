@@ -27,15 +27,16 @@ var STORE = {
             var parent = $(child).attr('data-parent');
             while (parent !== 0) {
                 var $elem = $(child);
-
-                data[counter] = {
-                    'type': $elem.attr('data-type'),
-                    'name': $('#name_' + $elem.attr('id')).text(),
-                    'html_id': $elem.id,
-                    'value': $elem.attr('data-value'),
-                    'parent': ''
-                };
-                counter++;
+                if (STORE.checkRel($elem.attr('id'), parent, data)) {
+                    data[counter] = {
+                        'type': $elem.attr('data-type'),
+                        'name': $('#name_' + $elem.attr('id')).text(),
+                        'html_id': $elem.attr('id'),
+                        'value': $("[data-value-" + $elem.attr('id')).attr("data-value-" + $elem.attr('id')),
+                        'parent': parent
+                    };
+                    counter++;
+                }
                 if (parent === '0_menu') {
                     parent = 0;
                 } else {
@@ -46,8 +47,13 @@ var STORE = {
         }
         return data;
     },
-    findRel: function (child, parent, data) {
-
+    checkRel: function (child, parent, data) {
+        for (var d in data) {
+            if (data[d].html_id === child && data[d].parent === parent) {
+                return false;
+            }
+        }
+        return true;
     },
     findLowestChilds: function () {
         var divs = $('div').filter('[data-parent]');
