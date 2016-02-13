@@ -72,3 +72,6 @@
 .sbt-btn{
     float: right;
 }
+.class-name{
+    display: inline;
+}

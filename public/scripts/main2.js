@@ -57,17 +57,17 @@ var MT = {
         switch (elem.action) {
             case "dropdown":
                 {
-                    html = elem.name + '<br>' + HTML.drawDropDown(elem);
+                    html = '<div class="class-name" id="name_' + newLevelID + '">' + elem.name + '</div><br>' + HTML.drawDropDown(elem);
                 }
                 break;
             case "input":
                 {
-                    html = elem.name + '<br>' + HTML.drawInput(elem);
+                    html = '<div class="class-name" id="name_' + newLevelID + '">' + elem.name + '</div><br>' + HTML.drawInput(elem);
                 }
                 break;
             default:
             {
-                html = elem.name;
+                html = '<div class="class-name" id="name_' + newLevelID + '">' + elem.name + '</div>';
             }
         }
         if (MT.findchilds(MT.findElem(cfgID)).length !== 0) {
@@ -79,7 +79,7 @@ var MT = {
     submitInput: function (elem) {
         var $elem = $(elem);
         var val = $elem.parent().children('input').first().val();
-        if(val === ''){
+        if (val === '') {
             alert('No value insert! Please insert some value.');
             return;
         }
@@ -87,9 +87,11 @@ var MT = {
         $(elem).parent().children('input').hide();
     },
     submitDropDown: function (elem) {
-       var $elem = $(elem);
-       $elem.parent().parent().after($elem.text());
-       $elem.parent().parent().parent().children('button').hide();
+        var $elem = $(elem);
+        console.log($elem);
+        $elem.parent().parent().after($elem.text());
+        $elem.parent().parent().parent().attr('data-value', $elem.text());
+        $elem.parent().parent().parent().children('button').hide();
     },
     findElem: function (id) {
         for (var i = 0; i < cfg.length; i++) {

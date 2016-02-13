@@ -3,7 +3,7 @@ var HTML = {
      * function who draws new div, which represents class in UML metamodel
      */
     newClass: function (html, id, className, parentID) {
-        return '<div id="' + id + '" data-parent="' + parentID + '" class="uml-class"><div>' + html + '</div></div>';
+        return '<div id="' + id + '" data-type="' + className + '" data-parent="' + parentID + '" class="uml-class"><div>' + html + '</div></div>';
     },
     /*
      * function who draws some UML class dropdown, for example, Arithmetical Operator

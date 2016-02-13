@@ -19,18 +19,29 @@ var STORE = {
     },
     createJSON: function () {
         var parent = '0_menu';
-        var childs = $('[data-parent="0_menu"]');
         var data = {};
         var lowestChilds = STORE.findLowestChilds();
         var counter = 0;
         for (var i = 0; i < lowestChilds.length; i++) {
             var child = lowestChilds[i];
             var parent = $(child).attr('data-parent');
-            while (parent !== '0_menu') {
-                data[counter] = {'title': 'eeeeee', '_token': $('meta[name=_token]').attr('content')};
+            while (parent !== 0) {
+                var $elem = $(child);
+
+                data[counter] = {
+                    'type': $elem.attr('data-type'),
+                    'name': $('#name_' + $elem.attr('id')).text(),
+                    'html_id': $elem.id,
+                    'value': $elem.attr('data-value'),
+                    'parent': ''
+                };
                 counter++;
-                parent = $('#' + $(child).attr('data-parent')).attr('data-parent');
-                child = $('#' + $(child).attr('data-parent'));
+                if (parent === '0_menu') {
+                    parent = 0;
+                } else {
+                    parent = $('#' + $elem.attr('data-parent')).attr('data-parent');
+                    child = $('#' + $elem.attr('data-parent'));
+                }
             }
         }
         return data;
