@@ -86,8 +86,6 @@ var MT = {
         $(elem).after(val);
         var id = $elem.parent().parent().attr('id');
         $elem.parent().parent().attr('data-value-' + id, val);
-        console.log(id);
-        console.log($elem.parent().parent());
         $(elem).parent().children('input').hide();
     },
     submitDropDown: function (elem) {

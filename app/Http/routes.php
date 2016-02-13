@@ -15,7 +15,6 @@
 
 
 Route::post('create_schema', 'SchemaController@createSchema');
-Route::post('create_class', 'SchemaController@create_class');
 
 /*
   |--------------------------------------------------------------------------
