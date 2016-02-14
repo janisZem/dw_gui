@@ -28,7 +28,7 @@ Route::post('create_schema', 'SchemaController@createSchema');
  */
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('/', function () {
-        return view('index');
-    });
+   
+    Route::get('index', function(){return 'aa';});
 });
+

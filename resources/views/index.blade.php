@@ -24,6 +24,8 @@
                 </ul>
             </div>
             <input onclick="STORE.store()" class="btn btn-default" type="submit" value="Save requirement">
+            <label>Schema name</label>
+            <input style="width:200px; float: left;" type="button" class="form-control req-input">
             <div id="req_master">
 
             </div>
