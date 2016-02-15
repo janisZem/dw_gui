@@ -9,8 +9,10 @@ var STORE = {
     },
     createSchema: function (classes) {
         var data = {};
-        data['theme_name'] = $('#schema_name').val();
-        data['theme_id'] = $('#schema_name').attr('data-value');
+        data['theme_name'] = $('#theme_name').val();
+        data['theme_id'] = $('#theme_name').attr('data-value');
+        data['schema_name'] = $('#schema_name').val();
+        data['schema_id'] = $('#schema_name').attr('data-value');
         data['classes'] = STORE.createJSON();
         $.ajax({
             url: 'http://localhost/dw_gui/public/create_schema',

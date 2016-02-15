@@ -2,26 +2,6 @@
  * 
  * @var cfg - declare in cfg.js
  */
-var stocks = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: themses
-});
-
-stocks.initialize();
-
-$('#schema_name').typeahead(
-        null, {
-            name: 'stocks',
-            displayKey: 'name',
-            source: stocks.ttAdapter()
-
-        }).on('typeahead:selected', function (event, data) {
-    $('#schema_name').attr('data-value', data.id);
-});
-
-
-
 var MT = {
     drawMenu: function (menuID, elemID, position) {
         $('.dropdown-menu').children().remove(); //remove old menu elems

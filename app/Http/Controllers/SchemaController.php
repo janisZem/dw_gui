@@ -20,7 +20,12 @@ class SchemaController extends Controller {
         } else {
             $theme_id = $data['theme_id'];
         }
-        $schema = $this->saveSchema($data['theme_name'], "00");
+        if (!isset($data['schema_id'])) {
+            $schema = $this->saveSchema($data['schema_name'], "00");
+        } else {
+            $schema = $data['schema_id'];
+        }
+
         foreach ($data['classes'] as $d) {
             $this->createClass($d, $schema, $theme_id);
         }

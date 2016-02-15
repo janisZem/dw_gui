@@ -25,6 +25,7 @@
             </div>
             <input onclick="STORE.store()" class="btn btn-default" type="submit" value="Save requirement">
 
+            <input style="width: 300px;display: inline; height: 35px; margin-top: -7px;" id="theme_name"  class="form-control typeahead" type="text" placeholder="Schema themse">
             <input style="width: 300px;display: inline; height: 35px; margin-top: -7px;" id="schema_name"  class="form-control typeahead" type="text" placeholder="Schema themse">
 
             <div id="req_master">
@@ -35,15 +36,17 @@
         </div>
 
         <script>
-        var themses = <?php echo json_encode($themses); ?>
+            var themses = <?php echo json_encode($themses); ?>;
+            var schemasArr = <?php echo json_encode($schemas); ?>;
 
 
         </script>
 
         <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js"></script>
-        
+
         <script src="js/bootstrap3-typeahead.min.js" type="text/javascript"></script>
+        <script src="scripts/autoloaders.js" type="text/javascript"></script>
         <script src="scripts/html_elements.js" type="text/javascript"></script>
         <script src="scripts/cfg.js" type="text/javascript"></script>
         <script src="scripts/main2.js" type="text/javascript"></script>
