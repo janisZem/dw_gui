@@ -15,11 +15,7 @@ class CreateSchemaTable extends Migration {
             $table->increments('id')->unsigned();
             $table->timestamps();
             $table->string('title', '255')->nullable();
-            $table->string('status', '2')->nullable();
-            $table->integer('theme_id')->unsigned();
-        });
-        Schema::table('schemas', function($table) {
-            $table->foreign('theme_id')->references('id')->on('themes');
+            $table->string('status', '2')->nullable();            
         });
     }
 

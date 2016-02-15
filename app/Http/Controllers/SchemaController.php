@@ -20,20 +20,19 @@ class SchemaController extends Controller {
         } else {
             $theme_id = $data['theme_id'];
         }
-        $schema = $this->saveSchema($data['theme_name'], "00", $theme_id);
+        $schema = $this->saveSchema($data['theme_name'], "00");
         foreach ($data['classes'] as $d) {
-            $this->createClass($d, $schema);
+            $this->createClass($d, $schema, $theme_id);
         }
         $this->updateSchema($schema, '01');
         return '';
         //$classes = $request->all();  
     }
 
-    private function saveSchema($name, $status, $id) {
+    private function saveSchema($name, $status) {
         $model = new \App\Schema_model;
         $model->title = $name;
         $model->status = $status;
-        $model->theme_id = $id;
         $model->save();
         return $model->id;
     }
@@ -51,7 +50,7 @@ class SchemaController extends Controller {
         return $theme->id;
     }
 
-    private function createClass($elem, $schemaId) {
+    private function createClass($elem, $schemaId, $themeId) {
         $class = new \App\Class_model;
         $class->type = $elem['type'];
         $class->name = $elem['name'];
@@ -60,6 +59,7 @@ class SchemaController extends Controller {
             $class->value = $elem['value'];
         }
         $class->schema_id = $schemaId;
+        $class->theme_id = $themeId;
         $class->save();
         if ($elem['parent'] != "" && $elem['parent'] != '0_menu') {
             $this->createRel($class->id, $this->findByHTMLID($elem['html_id']));
