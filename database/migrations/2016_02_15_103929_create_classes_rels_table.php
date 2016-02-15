@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClassesRels extends Migration {
+class CreateClassesRelsTable extends Migration {
 
     /**
      * Run the migrations.

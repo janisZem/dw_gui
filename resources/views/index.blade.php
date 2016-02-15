@@ -25,18 +25,20 @@
             </div>
             <input onclick="STORE.store()" class="btn btn-default" type="submit" value="Save requirement">
             <label>Schema name</label>
-            <input style="width:200px; float: left;" type="button" class="form-control req-input">
+            <input style="width: 300px;display: inline;" id="schema_name" autocomplete="off" class="form-control" type="text" placeholder="Default input">
             <div id="req_master">
 
             </div>
 
 
         </div>
-        <script src="scripts/jquery-1.11.3.js" type="text/javascript"></script> 
+      
+        
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.min.js"></script>   
+        <script src="js/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="scripts/html_elements.js" type="text/javascript"></script>
         <script src="scripts/cfg.js" type="text/javascript"></script>
         <script src="scripts/main2.js" type="text/javascript"></script>

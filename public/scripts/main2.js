@@ -2,7 +2,13 @@
  * 
  * @var cfg - declare in cfg.js
  */
+$(document).ready(function(){
 
+	$('#schema_name').typeahead({
+		name: 'accounts',
+		local: ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen']
+	});
+}); 
 var MT = {
     drawMenu: function (menuID, elemID, position) {
         $('.dropdown-menu').children().remove(); //remove old menu elems

@@ -16,6 +16,10 @@ class CreateSchemaTable extends Migration {
             $table->timestamps();
             $table->string('title', '255')->nullable();
             $table->string('status', '2')->nullable();
+            $table->integer('theme_id')->unsigned();
+        });
+        Schema::table('schemas', function($table) {
+            $table->foreign('theme_id')->references('id')->on('themes');
         });
     }
 
