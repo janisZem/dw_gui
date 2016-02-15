@@ -2,13 +2,26 @@
  * 
  * @var cfg - declare in cfg.js
  */
-$(document).ready(function(){
+var stocks = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: themses
+});
 
-	$('#schema_name').typeahead({
-		name: 'accounts',
-		local: ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen']
-	});
-}); 
+stocks.initialize();
+
+$('#schema_name').typeahead(
+        null, {
+            name: 'stocks',
+            displayKey: 'name',
+            source: stocks.ttAdapter()
+
+        }).on('typeahead:selected', function (event, data) {
+    $('#schema_name').attr('data-value', data.id);
+});
+
+
+
 var MT = {
     drawMenu: function (menuID, elemID, position) {
         $('.dropdown-menu').children().remove(); //remove old menu elems
@@ -96,7 +109,7 @@ var MT = {
     },
     submitDropDown: function (elem) {
         var $elem = $(elem);
-        var id =  $elem.parent().parent().parent().parent().parent().attr('id');
+        var id = $elem.parent().parent().parent().parent().parent().attr('id');
         $elem.parent().parent().parent().attr('data-value-' + id, $elem.text());
         $elem.parent().parent().after($elem.text());
         $elem.parent().parent().parent().children('button').hide();

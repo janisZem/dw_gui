@@ -13,9 +13,15 @@ class SchemaController extends Controller {
     }
 
     public function createSchema(Request $request) {
-        $schema = $this->saveSchema("DWH schema name", "00");
         $data = $request->all();
-        foreach ($data as $d) {
+
+        if (!isset($data['theme_id'])) {
+            $theme_id = $this->saveTheme($data['theme_name']);
+        } else {
+            $theme_id = $data['theme_id'];
+        }
+        $schema = $this->saveSchema($data['theme_name'], "00", $theme_id);
+        foreach ($data['classes'] as $d) {
             $this->createClass($d, $schema);
         }
         $this->updateSchema($schema, '01');
@@ -23,10 +29,11 @@ class SchemaController extends Controller {
         //$classes = $request->all();  
     }
 
-    private function saveSchema($name, $status) {
+    private function saveSchema($name, $status, $id) {
         $model = new \App\Schema_model;
         $model->title = $name;
         $model->status = $status;
+        $model->theme_id = $id;
         $model->save();
         return $model->id;
     }
@@ -35,6 +42,13 @@ class SchemaController extends Controller {
         $schema = \App\Schema_model::find($id);
         $schema->status = $status;
         $schema->save();
+    }
+
+    private function saveTheme($name) {
+        $theme = new \App\Themes_model;
+        $theme->name = $name;
+        $theme->save();
+        return $theme->id;
     }
 
     private function createClass($elem, $schemaId) {

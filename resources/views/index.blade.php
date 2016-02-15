@@ -24,20 +24,25 @@
                 </ul>
             </div>
             <input onclick="STORE.store()" class="btn btn-default" type="submit" value="Save requirement">
-            <label>Schema name</label>
-            <input style="width: 300px;display: inline;" id="schema_name" autocomplete="off" class="form-control" type="text" placeholder="Default input">
+
+            <input style="width: 300px;display: inline; height: 35px; margin-top: -7px;" id="schema_name"  class="form-control typeahead" type="text" placeholder="Schema themse">
+
             <div id="req_master">
 
             </div>
 
 
         </div>
-      
+
+        <script>
+        var themses = <?php echo json_encode($themses); ?>
+
+
+        </script>
+
+        <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js"></script>
         
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="js/bootstrap.min.js"></script>   
         <script src="js/bootstrap3-typeahead.min.js" type="text/javascript"></script>
         <script src="scripts/html_elements.js" type="text/javascript"></script>
         <script src="scripts/cfg.js" type="text/javascript"></script>

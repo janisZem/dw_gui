@@ -8,10 +8,14 @@ var STORE = {
         }
     },
     createSchema: function (classes) {
+        var data = {};
+        data['theme_name'] = $('#schema_name').val();
+        data['theme_id'] = $('#schema_name').attr('data-value');
+        data['classes'] = STORE.createJSON();
         $.ajax({
             url: 'http://localhost/dw_gui/public/create_schema',
             type: "post",
-            data: STORE.createJSON(),
+            data: data,
             success: function (id) {
                 console.log(id);
             }
