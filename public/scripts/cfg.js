@@ -130,14 +130,14 @@ var cfg = [
     {
         id: 'complexCond',
         name: 'Complex Condition',
-        parent: ['typifiedCond'],
+        parent: ['condition'],
         action: null,
         values: null
     },
     {
         id: 'simpleCond',
         name: 'Simple Condition',
-        parent: ['complexCond'],
+        parent: ['complexCond', 'condition'],
         action: null,
         values: null
     },
@@ -147,6 +147,13 @@ var cfg = [
         parent: ['complexCond'],
         action: 'dropdown',
         values: ['or', 'and', 'not']
+    },
+    {
+        id: 'condition',
+        name: 'Condition',
+        parent: ['typifiedCond', 'complexCond'],
+        action: null,
+        values: null
     }
 
 ];

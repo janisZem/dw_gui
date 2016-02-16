@@ -25,7 +25,8 @@ class SchemaController extends Controller {
         } else {
             $schema = $data['schema_id'];
         }
-        $classes = array_reverse($data['classes']);
+        $classes = $data['classes'];
+        //$classes = array_reverse($data['classes']);
         foreach ($classes as $d) {
             $this->createClass($d, $schema, $theme_id);
         }
