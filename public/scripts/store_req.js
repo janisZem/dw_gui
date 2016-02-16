@@ -3,6 +3,11 @@ var STORE = {
         var classes = $('#req_master').children('div');
         if (classes.length === 0) {
             alert('No classes added!');
+        } else if ($('#theme_name').val() === "") {
+            alert('Insert or select schema theme!');
+        }
+        else if ($('#schema_name').val() === "") {
+            alert('Insert or select schema name!');
         } else {
             STORE.createSchema();
         }

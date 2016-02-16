@@ -25,8 +25,8 @@ class SchemaController extends Controller {
         } else {
             $schema = $data['schema_id'];
         }
-
-        foreach ($data['classes'] as $d) {
+        $classes = array_reverse($data['classes']);
+        foreach ($classes as $d) {
             $this->createClass($d, $schema, $theme_id);
         }
         $this->updateSchema($schema, '01');
@@ -67,7 +67,7 @@ class SchemaController extends Controller {
         $class->theme_id = $themeId;
         $class->save();
         if ($elem['parent'] != "" && $elem['parent'] != '0_menu') {
-            $this->createRel($class->id, $this->findByHTMLID($elem['html_id']));
+            $this->createRel($class->id, $this->findByHTMLID($elem['parent']));
         }
     }
 

@@ -25,8 +25,8 @@
             </div>
             <input onclick="STORE.store()" class="btn btn-default" type="submit" value="Save requirement">
 
-            <input style="width: 300px;display: inline; height: 35px; margin-top: -7px;" id="theme_name"  class="form-control typeahead" type="text" placeholder="Schema themse">
-            <input style="width: 300px;display: inline; height: 35px; margin-top: -7px;" id="schema_name"  class="form-control typeahead" type="text" placeholder="Schema themse">
+            <input id="schema_name"  class="form-control typeahead schema-names" type="text" placeholder="Schema name">
+            <input id="theme_name"  class="form-control typeahead schema-names" type="text" placeholder="Schema themse">
 
             <div id="req_master">
 
