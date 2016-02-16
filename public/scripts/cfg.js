@@ -26,7 +26,7 @@ var cfg = [
     {
         id: 'comp',
         name: 'Comparison',
-        parent: ['complexReq', 'simpleCond'],
+        parent: ['complexReq', 'simpleCond', 'simpleExpr'],
         action: 'dropdown',
         values: ['>', '<', '>=', '<=', '=']
     },
@@ -109,7 +109,7 @@ var cfg = [
     {
         id: 'object',
         name: 'Object',
-        parent: ['simpleReq'],
+        parent: ['simpleReq', 'operation'],
         action: null,
         values: null
     },
