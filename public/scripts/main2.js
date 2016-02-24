@@ -61,7 +61,13 @@ var MT = {
                 break;
             case "input":
                 {
-                    html = '<div class="class-name" id="name_' + newLevelID + '">' + elem.name + '</div><br>' + HTML.drawInput(elem);
+                    /*
+                     * Find suggestions by themse
+                     */
+                    if ($('#theme_name').val() !== '') {
+                        searchEntities($('#theme_name').val(), Object.keys(entities).length);
+                    }
+                    html = '<div class="class-name" id="name_' + newLevelID + '">' + elem.name + '</div><br>' + HTML.drawInput(elem);                    
                 }
                 break;
             default:
@@ -139,11 +145,12 @@ var MT = {
          * parentID element parent ID
          */
         newElem: function (html, id, className, parentID) {
-            console.log(parentID);
+            console.log(html);
             if (parentID === '0_menu') {
                 $('#req_master').append(HTML.newClass(html, id, className, parentID));
             } else {
                 $('#' + parentID).append(HTML.newClass(html, id, className, parentID));
+                autoEntities(id);
             }
         }
 

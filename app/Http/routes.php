@@ -27,7 +27,10 @@ Route::post('create_schema', 'SchemaController@createSchema');
   |
  */
 
-Route::group(['middleware' => ['web']], function () {   
+Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'GuiController@index');
+    Route::get('/semantic', function() {
+        return view('semantic');
+    });
 });
 

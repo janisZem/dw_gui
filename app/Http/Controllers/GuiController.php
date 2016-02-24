@@ -23,4 +23,8 @@ class GuiController extends Controller {
         return view('index', $data);
     }
 
+    public function semntic() {
+        
+    }
+
 }

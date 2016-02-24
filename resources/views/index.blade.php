@@ -25,8 +25,8 @@
             </div>
             <input onclick="STORE.store()" class="btn btn-default" type="submit" value="Save requirement">
 
-            <input id="schema_name"  class="form-control typeahead schema-names" type="text" placeholder="Schema name">
-            <input id="theme_name"  class="form-control typeahead schema-names" type="text" placeholder="Schema themse">
+            <input id="schema_name" class="form-control typeahead schema-names" type="text" placeholder="Schema name">
+            <input id="theme_name" onblur="themseSelected()" class="form-control typeahead schema-names" type="text" placeholder="Schema themse">
 
             <div id="req_master">
 
@@ -46,6 +46,7 @@
         <script src="js/bootstrap.min.js"></script>
 
         <script src="js/bootstrap3-typeahead.min.js" type="text/javascript"></script>
+        <script src="scripts/semantic_search.js" type="text/javascript"></script>
         <script src="scripts/autoloaders.js" type="text/javascript"></script>
         <script src="scripts/html_elements.js" type="text/javascript"></script>
         <script src="scripts/cfg.js" type="text/javascript"></script>

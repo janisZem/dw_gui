@@ -23,7 +23,7 @@ var HTML = {
      * function who draws some UML class input some value, for example, Qualifying Data
      */
     drawInput: function () {
-        return '<input style="width:65%; margin:3px; display: inline;" type="text" class="form-control req-input">'
+        return '<input style="width:65%; margin:3px; display: inline;" type="text" class="form-control typeahead req-input">'
                 + '<input style="width:30%;" onclick="MT.submitInput(this)" class="btn btn-default sbt-btn" type="submit" value="Submit">';
     },
     /*
