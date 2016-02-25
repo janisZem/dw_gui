@@ -61,13 +61,7 @@ var MT = {
                 break;
             case "input":
                 {
-                    /*
-                     * Find suggestions by themse
-                     */
-                    if ($('#theme_name').val() !== '') {
-                        searchEntities($('#theme_name').val(), Object.keys(entities).length);
-                    }
-                    html = '<div class="class-name" id="name_' + newLevelID + '">' + elem.name + '</div><br>' + HTML.drawInput(elem);                    
+                    html = '<div class="class-name" id="name_' + newLevelID + '">' + elem.name + '</div><br>' + HTML.drawInput(elem);
                 }
                 break;
             default:
@@ -83,15 +77,18 @@ var MT = {
     },
     submitInput: function (elem) {
         var $elem = $(elem);
-        var val = $elem.parent().children('input').first().val();
+        console.log($elem);
+        var val = $($elem.parent().children('span').children('input')[1]).val();
         if (val === '') {
             alert('No value insert! Please insert some value.');
             return;
         }
-        $(elem).after(val);
+        
+        $elem.after(val);
         var id = $elem.parent().parent().attr('id');
         $elem.parent().parent().attr('data-value-' + id, val);
-        $(elem).parent().children('input').hide();
+        $elem.parent().children('span').children('input').remove();
+        $elem.remove();
     },
     submitDropDown: function (elem) {
         var $elem = $(elem);
@@ -145,7 +142,7 @@ var MT = {
          * parentID element parent ID
          */
         newElem: function (html, id, className, parentID) {
-            console.log(html);
+            //console.log(html);
             if (parentID === '0_menu') {
                 $('#req_master').append(HTML.newClass(html, id, className, parentID));
             } else {

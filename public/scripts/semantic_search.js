@@ -1,16 +1,16 @@
 
-var projectLimit = 500;
+var projectLimit = 500; //+50
 var def = 'Education';
 
 
-var entities = {};
+var entities = [];
 var debug = 0;
-searchEntities(def, Object.keys(entities).length);
+searchEntities(def, entities.length);
 
 function themseSelected() {
-    alert('im here ' + $('#theme_name').val());
+    //alert('im here ' + $('#theme_name').val());
     if ($('#theme_name').val() !== '') {
-        searchEntities($('#theme_name').val(), Object.keys(entities).length);
+        searchEntities($('#theme_name').val(), entities.length);
     }
 }
 
@@ -19,7 +19,7 @@ function themseSelected() {
  */
 function searchEntities(word, contin) {
     //console.log('im here2: ' + word + " caller: " + arguments.callee.caller);
-    if (Object.keys(entities).length > projectLimit) {
+    if (entities.length > projectLimit) {
         return;
     }
     $.ajax({
@@ -30,18 +30,20 @@ function searchEntities(word, contin) {
     }).done(function (data) {
         //console.log(data);
         for (var i = 0; i < data.search.length; i++) {
-            entities[Object.keys(entities).length + 1] = {'id': i, 'name': data.search[i].label};
+            //entities[Object.keys(entities).length + 1] = {'id': i, 'name': data.search[i].label};
+            entities.push(data.search[i].label);
         }
         if (data.search.length < 50) {
             return;
         }
-        if (Object.keys(entities).length < 100) {
-            searchEntities(def, Object.keys(entities).length);
+        if (entities.length < 100) {
+            searchEntities(def, entities.length);
         } else if ($('#theme_name').val() !== '') {
             //console.log(theme);
-            searchEntities($('#theme_name').val(), Object.keys(entities).length);
+            searchEntities($('#theme_name').val(), entities.length);
         }
         //console.log(entities);
+        //console.log(entities.length);
     });
 
 }

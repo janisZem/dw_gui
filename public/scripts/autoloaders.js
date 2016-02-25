@@ -1,4 +1,3 @@
-console.log(themses);
 var stocks = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -37,22 +36,21 @@ $('#schema_name').typeahead(
 });
 
 function autoEntities(id) {
-    console.log($('.req-input'));
-    var enitiesObj = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+
+    var entitiesObj = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        // `states` is an array of state names defined in "The Basics"
         local: entities
     });
 
-    enitiesObj.initialize();
-
-    $(id).typeahead(
-            null, {
-                name: 'enitiesObj',
-                displayKey: 'name',
-                source: enitiesObj.ttAdapter()
-
-            }).on('typeahead:selected', function (event, data) {
-        $(id).attr('data-value', data.id);
+    $('.req-input').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+    },
+    {
+        name: 'entitiesObj',
+        source: entitiesObj
     });
 }
