@@ -26,13 +26,43 @@ class SchemaController extends Controller {
             $schema = $data['schema_id'];
         }
         $classes = $data['classes'];
-        $classes = array_reverse($data['classes']);
+        //$classes = array_reverse($data['classes']);
+        $classes = $this->sortClasses($classes);
         foreach ($classes as $d) {
             $this->createClass($d, $schema, $theme_id);
         }
         $this->updateSchema($schema, '01');
         return '';
-        //$classes = $request->all();  
+        //$classes = $request->all();
+    }
+
+    private function sortClasses($classes) {
+        $tmp = [];
+        while (count($tmp) != count($classes)) {
+            foreach ($classes as $class) {
+                if ((!$this->findInArray($tmp, $class)) && ($class['parent'] == '0_menu' || $this->findInArray($tmp, $this->getHTMLElem($classes, $class['parent'])))) {
+                    array_push($tmp, $class);
+                }
+            }
+        }
+        return $tmp;
+    }
+
+    private function findInArray($sArray, $array) {
+        foreach ($sArray as $a) {
+            if ($a['html_id'] == $array['html_id']) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function getHTMLElem($classes, $id) {
+        foreach ($classes as $class) {
+            if ($class['html_id'] == $id) {
+                return $class;
+            }
+        }
     }
 
     private function saveSchema($name, $status) {
