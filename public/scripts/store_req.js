@@ -2,12 +2,21 @@ var STORE = {
     store: function () {
         var classes = $('#req_master').children('div');
         if (classes.length === 0) {
-            alert('No classes added!');
+            $('.req-succ').remove();
+            $('.container').children().first().before('<div class="panel panel-danger req-succ">\n\
+                                                               <div class="panel-heading">No classes added!</div>\n\
+                                                           </div>');
         } else if ($('#theme_name').val() === "") {
-            alert('Insert or select schema theme!');
+            $('.req-succ').remove();
+            $('.container').children().first().before('<div class="panel panel-danger req-succ">\n\
+                                                               <div class="panel-heading">Insert or select schema theme!</div>\n\
+                                                           </div>');
         }
         else if ($('#schema_name').val() === "") {
-            alert('Insert or select schema name!');
+            $('.req-succ').remove();
+            $('.container').children().first().before('<div class="panel panel-danger req-succ">\n\
+                                                               <div class="panel-heading">Insert or select schema name!</div>\n\
+                                                           </div>');
         } else {
             STORE.createSchema();
         }
@@ -24,7 +33,18 @@ var STORE = {
             type: "post",
             data: data,
             success: function (id) {
-                console.log(id);
+                console.log("success");
+                $('.uml-class').remove();
+                $('.req-succ').remove();
+                $('.container').children().first().before('<div class="panel panel-success req-succ">\n\
+                                                               <div class="panel-heading">Requirement saved successfully!</div>\n\
+                                                           </div>');
+            }, error: function (request, status, error) {
+                $('.req-succ').remove();
+                $('.container').children().first().before('<div class="panel panel-danger req-succ">\n\
+                                                               <div class="panel-heading">Error!</div>\n\
+                                                           </div>');
+                ;
             }
         });
     },
