@@ -19,10 +19,12 @@ class CreateClassesTable extends Migration {
             $table->string('value', '255')->nullable(); //choosen value
             $table->integer('schema_id')->unsigned();
             $table->integer('theme_id')->unsigned();
+            $table->integer('reqs_id')->unsigned();
         });
         Schema::table('classes', function($table) {
             $table->foreign('schema_id')->references('id')->on('schemas');
             $table->foreign('theme_id')->references('id')->on('themes');
+            $table->foreign('reqs_id')->references('id')->on('reqs');
         });
     }
 

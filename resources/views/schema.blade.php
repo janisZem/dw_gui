@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Entity Relationship</title>
+        <title>Candidate schema</title>
         <meta name="description" content="Interactive entity-relationship diagram or data model diagram implemented by GoJS in JavaScript for HTML." />
         <!-- Copyright 1998-2016 by Northwoods Software Corporation. -->
         <meta charset="UTF-8">
@@ -115,8 +115,31 @@
                                 new go.Binding("text", "toText"))
                                 );
                 // create the model for the E-R diagram
+
+                var myArr = [<?php
+foreach ($modelClasses as $m) {
+    echo '{ key: "';
+    echo $m['key'];
+    if ($m['items'] > 0) {
+        echo '", items:[';
+        foreach ($m['items'] as $i) {
+            echo '{name: "';
+            echo $i['name'] . '",';
+            echo 'iskey: ';
+            echo $i['iskey'] . ',';
+            echo 'figure: "';
+            echo $i['figure'] . '",';
+            echo 'color: ';
+            echo $i['color'] . '';
+            echo '}';
+        }
+        echo "]";
+    }
+    echo "},";
+}
+?>];
                 var nodeDataArray = [
-                    {key: "Products",
+                    {key: "graduate occurance",
                         items: [{name: "ProductID", iskey: true, figure: "Decision", color: yellowgrad},
                             {name: "ProductName", iskey: false, figure: "Cube1", color: bluegrad},
                             {name: "SupplierID", iskey: false, figure: "Decision", color: "purple"},
@@ -139,11 +162,11 @@
                             {name: "Discount", iskey: false, figure: "MagneticData", color: greengrad}]},
                 ];
                 var linkDataArray = [
-                    {from: "Products", to: "Suppliers", text: "0..N", toText: "1"},
-                    {from: "Products", to: "Categories", text: "0..N", toText: "1"},
-                    {from: "Order Details", to: "Products", text: "0..N", toText: "1"}
+                    {from: "graduate occurance", to: "Suppliers", text: "", toText: ""},
+                    {from: "graduate occurance", to: "Categories", text: "", toText: ""},
+                    {from: "Order Details", to: "graduate occurance", text: "", toText: ""}
                 ];
-                myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+                myDiagram.model = new go.GraphLinksModel(myArr, linkDataArray);
             }
         </script>
     </head>

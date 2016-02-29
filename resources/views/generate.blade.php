@@ -13,10 +13,9 @@
     <body>
         <div class="main-content">
             <h3>Generate candidate schema</h3>
-            <form>
+            <form action="<?php echo URL::to('/process');?>" method="post">
                 <label for="schema_chose">Select schema:</label>
                 <div class="form-group">
-
                     <div class="dropdown">                        
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             Schemas
