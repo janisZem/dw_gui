@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{!! csrf_token() !!}" />
-        <title>REQ input</title>
+        <title>MT</title>
 
 
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -23,12 +23,11 @@
                 <ul class="dropdown-menu multi-level" role="menu">
                 </ul>
             </div>
-            <input onclick="STORE.store()" class="btn btn-danger" type="submit" value="Save requirement">
+            <input onclick="STORE.store()" class="btn btn-default" type="submit" value="Save requirement">
 
             <input id="schema_name" class="form-control typeahead schema-names" type="text" placeholder="Schema name">
             <input id="theme_name" onblur="themseSelected()" class="form-control typeahead schema-names" type="text" placeholder="Schema themse">
-            <input onclick="window.location.replace('<?php echo URL::to('/generate');?>');" style="margin-left: 100px" class="btn btn-default" type="submit" value="Create candidate schema">
-            <hr>
+
             <div id="req_master">
 
             </div>
