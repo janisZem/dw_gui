@@ -13,9 +13,7 @@ class SchemaController extends Controller {
     }
 
     public function createSchema(Request $request) {
-        $req = new \App\Reqs_model();
-        $req->save();
-        $req_id = $req->id;
+        $req_id = $this->createReq();
         $data = $request->all();
 
         if (!isset($data['theme_id'])) {
@@ -37,6 +35,12 @@ class SchemaController extends Controller {
         $this->updateSchema($schema, '01');
         return '';
         //$classes = $request->all();
+    }
+
+    private function createReq() {
+        $req = new \App\Reqs_model();
+        $req->save();
+        return $req->id;
     }
 
     private function sortClasses($classes) {
