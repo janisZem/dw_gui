@@ -25,15 +25,19 @@ class GenerateController extends Controller {
         $classes = DB::select($sql, ['id' => $data['schema_name']]);
         //$classes = $classes->toArray();
         //print_r($classes);
-        $viewData['modelClasses'] = $this->createJson($classes);
+        $viewData['modelClasses'] = $this->createJson($classes)['classes'];
+        $viewData['rels'] = $this->createJson($classes)['rels'];
         return view('schema', $viewData);
     }
 
     private function createJson($classes) {
         $mClasses = [];
+        $rels = [];
         $this->createMeasures($classes, $mClasses); //mClasses change by reference
-        $this->createDimensions($classes, $mClasses); //mClasses change by reference        
-        return $mClasses;
+        $this->createDimensions($classes, $mClasses, $rels); //mClasses, rels change by reference 
+        $data['classes'] = $mClasses;
+        $data['rels'] = $rels;
+        return $data;
     }
 
     private function createMeasures($classes, &$mClasses) {
@@ -46,28 +50,41 @@ class GenerateController extends Controller {
         return $mClasses;
     }
 
-    private function createDimensions($classes, &$mClasses) {
-        $this->simpleReqs = $this->createSimpleReq($classes);
+    private function createDimensions($classes, &$mClasses, &$rels) {
+        $this->createSimpleReq($classes);
         foreach ($classes as $c) {
             if ($c['type'] == 'qualData') {
                 array_push($mClasses, ['key' => 'a_' . $c['value'],
                     'items' => []]);
-                $this->createRel($c, $classes);
+                $rels = $this->createRel($c);
             }
         }
         return $mClasses;
     }
 
-    private function createRel($c, $classes) {
-        $this->findMeasure($c, $classes);
+    private function createRel($c) {
+        $measures = $this->findMeasure($c);
+        $rels = [];
+        foreach ($measures as $m) {
+            array_push($rels, ['from' => "a_" . $c['value'], 'to' => "m_" . $m['value'], 'text' => "", 'toText' => ""]);
+        }
+        return $rels;
     }
 
-    private function findMeasure($c, $classes) {
-        foreach ($classes as $class) {
-            if ($class['reqs_id'] == $c['reqs_id']) {
-                
+    private function findMeasure($c) {
+        $m = [];
+        foreach ($this->simpleReqs as $r) {
+            foreach ($r as $ch) {
+                if ($c['id'] == $ch['id']) {
+                    foreach ($r as $ch) {
+                        if ($ch['type'] == 'quanData') {
+                            array_push($m, $ch);
+                        }
+                    }
+                }
             }
         }
+        return $m;
     }
 
     private function createSimpleReq($classes) {
@@ -88,7 +105,8 @@ class GenerateController extends Controller {
                 }
             }
         }
-        print_r($simpleReqs);
+        $this->simpleReqs = $simpleReqs;
+        //print_r($this->simpleReqs);
     }
 
     private function getClass($classes, $id) {

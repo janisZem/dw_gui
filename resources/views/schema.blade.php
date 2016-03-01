@@ -138,6 +138,13 @@ foreach ($modelClasses as $m) {
     echo "},";
 }
 ?>];
+            
+            
+            var myRels = [<?php foreach($rels as $r){
+                echo '{ from: "'.$r['from'].'", to: "'. $r['to'] .'", text: "'. $r['text'] .'", toText: "'. $r['toText'] .'" }';
+                
+            } ?>];
+                
                 var nodeDataArray = [
                     {key: "graduate occurance",
                         items: [{name: "ProductID", iskey: true, figure: "Decision", color: yellowgrad},
@@ -166,7 +173,7 @@ foreach ($modelClasses as $m) {
                     {from: "graduate occurance", to: "Categories", text: "", toText: ""},
                     {from: "Order Details", to: "graduate occurance", text: "", toText: ""}
                 ];
-                myDiagram.model = new go.GraphLinksModel(myArr, linkDataArray);
+                myDiagram.model = new go.GraphLinksModel(myArr, myRels);
             }
         </script>
     </head>
