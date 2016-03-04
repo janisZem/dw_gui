@@ -70,7 +70,8 @@ var MT = {
             }
         }
         if (MT.findchilds(MT.findElem(cfgID)).length !== 0) {
-            MT.CON.newElem(html + HTML.drawNewButton(newLevelID, cfgID, 'b'), newLevelID, elem.id, menuID);
+            var html = html + HTML.drawNewButton(newLevelID, cfgID, 'b') + ' ' + HTML.drawDeleteButton();
+            MT.CON.newElem(html, newLevelID, elem.id, menuID);
         } else {
             MT.CON.newElem(html, newLevelID, elem.id, menuID);
         }
@@ -83,7 +84,7 @@ var MT = {
             alert('No value insert! Please insert some value.');
             return;
         }
-        
+
         $elem.after(val);
         var id = $elem.parent().parent().attr('id');
         $elem.parent().parent().attr('data-value-' + id, val);
@@ -149,7 +150,9 @@ var MT = {
                 $('#' + parentID).append(HTML.newClass(html, id, className, parentID));
                 autoEntities(id);
             }
+        },
+        delete: function (elem) {
+            $(elem).parent().parent().remove();
         }
-
     }
 };

@@ -23,15 +23,15 @@ var HTML = {
      * function who draws some UML class input some value, for example, Qualifying Data
      */
     drawInput: function () {
-        return '<input style="width:65%; margin:3px; display: inline;" type="text" class="form-control typeahead req-input">'
-                + '<input style="width:30%;" onclick="MT.submitInput(this)" class="btn btn-default sbt-btn" type="submit" value="Submit">';
+        return '<input style="width:150px; margin:3px; display: inline;" type="text" class="form-control typeahead req-input">'
+                + '<input style="width:30%; margin-top:3px;" onclick="MT.submitInput(this)" class="btn btn-default sbt-btn" type="submit" value="Submit">';
     },
     /*
      * function who draws + button, which opens menu from UML cfg.js file
      */
     drawNewButton: function (id, cfgID, postion) {
         var className = 'btn-primary';
-        return '   <div class="dropdown dropdown-menu-req">'
+        return '    <div class="dropdown dropdown-menu-req">'
                 + '    <a id="dLabel" role="button" data-toggle="dropdown"'
                 + '       class="btn ' + className + '"'
                 + '       onclick="MT.drawMenu(\'' + id + '\', \'' + cfgID + '\', \'' + postion + '\')" >'
@@ -40,5 +40,8 @@ var HTML = {
                 + '    <ul class="dropdown-menu multi-level" role="menu">'
                 + '    </ul>'
                 + '</div>';
+    },
+    drawDeleteButton: function () {
+        return '<a onclick="MT.CON.delete(this);" role="button" class="btn btn-info"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a>';
     }
 };
