@@ -43,28 +43,41 @@ class GenerateController extends Controller {
     private function createMeasures($classes, &$mClasses) {
         foreach ($classes as $c) {
             if ($c['type'] == 'quanData') {
-                array_push($mClasses, ['key' => 'm_' . $c['value'],
-                    'items' => [array('name' => $c['value'] . "_id", 'iskey' => true, 'figure' => "Decision", 'color' => 'yellowgrad')]]);
+                if (!$this->inArray('m_' . $c['value'], $mClasses)) {
+                    array_push($mClasses, ['key' => 'm_' . $c['value'],
+                        'items' => [array('name' => $c['value'] . "_id", 'iskey' => true, 'figure' => "Decision", 'color' => 'yellowgrad')]]);
+                }
             }
         }
         return $mClasses;
+    }
+
+    private function inArray($val, $array) {
+        foreach ($array as $a) {
+            if ($a['key'] == $val) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private function createDimensions($classes, &$mClasses, &$rels) {
         $this->createSimpleReq($classes);
         foreach ($classes as $c) {
             if ($c['type'] == 'qualData') {
-                array_push($mClasses, ['key' => 'a_' . $c['value'],
-                    'items' => []]);
-                $rels = $this->createRel($c);
+                if (!$this->inArray('a_' . $c['value'], $mClasses)) {
+                    array_push($mClasses, ['key' => 'a_' . $c['value'],
+                        'items' => []]);
+                     $this->createRel($c, $rels);
+                }
             }
         }
         return $mClasses;
     }
 
-    private function createRel($c) {
+    private function createRel($c, &$rels) {
         $measures = $this->findMeasure($c);
-        $rels = [];
+       // $rels = [];
         foreach ($measures as $m) {
             array_push($rels, ['from' => "a_" . $c['value'], 'to' => "m_" . $m['value'], 'text' => "", 'toText' => ""]);
         }
