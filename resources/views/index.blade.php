@@ -27,7 +27,7 @@
 
             <input id="schema_name" class="form-control typeahead schema-names" type="text" placeholder="Schema name">
             <input id="theme_name" onblur="themseSelected()" class="form-control typeahead schema-names" type="text" placeholder="Schema themse">
-            <input onclick="window.location.replace('<?php echo URL::to('/generate');?>');" style="margin-left: 100px" class="btn btn-default" type="submit" value="Create candidate schema">
+            <input onclick="window.location.href ='<?php echo URL::to('/generate');?>';" style="margin-left: 100px" class="btn btn-default" type="submit" value="Create candidate schema">
             <hr>
             <div id="req_master">
 
