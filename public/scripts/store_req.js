@@ -11,8 +11,7 @@ var STORE = {
             $('.container').children().first().before('<div class="panel panel-danger req-succ">\n\
                                                                <div class="panel-heading">Insert or select schema theme!</div>\n\
                                                            </div>');
-        }
-        else if ($('#schema_name').val() === "") {
+        } else if ($('#schema_name').val() === "") {
             $('.req-succ').remove();
             $('.container').children().first().before('<div class="panel panel-danger req-succ">\n\
                                                                <div class="panel-heading">Insert or select schema name!</div>\n\
@@ -27,6 +26,12 @@ var STORE = {
         data['theme_id'] = $('#theme_name').attr('data-value');
         data['schema_name'] = $('#schema_name').val();
         data['schema_id'] = $('#schema_name').attr('data-value');
+
+        data['bp_name'] = $('#bp').val();
+        data['bp_id'] = $('#bp').attr('data-value');
+        data['st_name'] = $('#st').val();
+        data['st_id'] = $('#st').attr('data-value');
+
         data['classes'] = STORE.createJSON();
         $.ajax({
             url: '/dw_gui/public/create_schema',

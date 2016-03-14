@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Candidate schema</title>
+        <title>iReq candidate schema</title>
         <meta name="description" content="Interactive entity-relationship diagram or data model diagram implemented by GoJS in JavaScript for HTML." />
         <!-- Copyright 1998-2016 by Northwoods Software Corporation. -->
         <meta charset="UTF-8">

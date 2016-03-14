@@ -1,3 +1,40 @@
+var bp = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: bpArr
+});
+
+bp.initialize();
+
+$('#bp').typeahead(
+        null, {
+            name: 'bp',
+            displayKey: 'name',
+            source: bp.ttAdapter()
+
+        }).on('typeahead:selected', function (event, data) {
+    $('#bp').attr('data-value', data.id);
+});
+
+var st = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: stArr
+});
+
+st.initialize();
+
+$('#st').typeahead(
+        null, {
+            name: 'st',
+            displayKey: 'name',
+            source: st.ttAdapter()
+
+        }).on('typeahead:selected', function (event, data) {
+    $('#st').attr('data-value', data.id);
+});
+
+
 var stocks = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -49,8 +86,11 @@ function autoEntities(id) {
         highlight: true,
         minLength: 1
     },
-    {
-        name: 'entitiesObj',
-        source: entitiesObj
-    });
+            {
+                name: 'entitiesObj',
+                source: entitiesObj
+            });
 }
+
+
+

@@ -15,7 +15,9 @@ class SchemaController extends Controller {
     public function createSchema(Request $request) {
         $req_id = $this->createReq();
         $data = $request->all();
-
+        // print_r($data);
+        $this->createBP($data, $req_id);
+        $this->createST($data, $req_id);
         if (!isset($data['theme_id'])) {
             $theme_id = $this->saveTheme($data['theme_name']);
         } else {
@@ -35,6 +37,40 @@ class SchemaController extends Controller {
         $this->updateSchema($schema, '01');
         return '';
         //$classes = $request->all();
+    }
+
+    private function createBP($data, $req_id) {
+        if (!isset($data['bp_name'])) {
+            return;
+        }
+        if (!isset($data['bp_id'])) {
+            $bp = new \App\Business_processes_model;
+            $bp->title = $data['bp_name'];
+            $bp->save();
+            $data['bp_id'] = $bp->id;
+        }
+        $rel = new \App\Business_processes_rels_model;
+        $rel->req_id = $req_id;
+        $rel->bp_id = $data['bp_id'];
+        $rel->save();
+        return;
+    }
+
+    private function createST($data, $req_id) {
+        if (!isset($data['st_name'])) {
+            return;
+        }
+        if (!isset($data['st_id'])) {
+            $st = new \App\Stateholder_model;
+            $st->title = $data['st_name'];
+            $st->save();
+            $data['st_id'] = $st->id;
+        }
+        $rel = new \App\Stateholdres_rels_model;
+        $rel->req_id = $req_id;
+        $rel->stateholder_id = $data['st_id'];
+        $rel->save();
+        return;
     }
 
     private function createReq() {
