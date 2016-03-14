@@ -40,7 +40,7 @@ class SchemaController extends Controller {
     }
 
     private function createBP($data, $req_id) {
-        if (!isset($data['bp_name'])) {
+        if (!isset($data['bp_name']) || $data['bp_name'] == "") {
             return;
         }
         if (!isset($data['bp_id'])) {
@@ -57,7 +57,7 @@ class SchemaController extends Controller {
     }
 
     private function createST($data, $req_id) {
-        if (!isset($data['st_name'])) {
+        if (!isset($data['st_name']) || $data['st_name'] == "") {
             return;
         }
         if (!isset($data['st_id'])) {
