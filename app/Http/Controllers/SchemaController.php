@@ -135,7 +135,7 @@ class SchemaController extends Controller {
         $class->name = $elem['name'];
         $class->html_id = $elem['html_id'];
         if (isset($elem['value'])) {
-            $class->value = $elem['value'];
+            $class->value = trim($elem['value']); //trim if user enters white spaces
         }
         $class->schema_id = $schemaId;
         $class->theme_id = $themeId;

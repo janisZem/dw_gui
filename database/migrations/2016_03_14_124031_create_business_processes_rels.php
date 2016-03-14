@@ -27,9 +27,7 @@ class CreateBusinessProcessesRels extends Migration {
      * @return void
      */
     public function down() {
-        Schema::table('business_processes_rels', function (Blueprint $table) {
-            Schema::drop('stateholders_rels');
-        });
+        Schema::drop('business_processes_rels');
     }
 
 }

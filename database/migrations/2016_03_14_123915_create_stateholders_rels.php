@@ -27,9 +27,7 @@ class CreateStateholdersRels extends Migration {
      * @return void
      */
     public function down() {
-        Schema::table('stateholders_rels', function (Blueprint $table) {
-            Schema::drop('stateholders_rels');
-        });
+        Schema::drop('stateholders_rels');
     }
 
 }

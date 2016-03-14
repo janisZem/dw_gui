@@ -23,9 +23,7 @@ class CreateStateholders extends Migration {
      * @return void
      */
     public function down() {
-        Schema::table('stateholders', function (Blueprint $table) {
-            Schema::drop('stateholders');
-        });
+        Schema::drop('stateholders');
     }
 
 }
