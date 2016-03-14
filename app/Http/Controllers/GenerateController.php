@@ -19,21 +19,25 @@ class GenerateController extends Controller {
 
     public function generateSchema(Request $request) {
         $data = $request->all();
-        /* $classes = \App\Class_model::where('schema_id', $data['schema_name'])
-          ->get(); */
-        $sql = 'select c.*, cl.parent_id from classes c left join classes_rels cl on c.id = cl.child_id where c.schema_id = :id';
+
+        $sql = '      SELECT c.* '
+                . '        , cl.parent_id '
+                . '     FROM classes c '
+                . 'LEFT JOIN classes_rels cl ON c.id = cl.child_id '
+                . '    WHERE c.schema_id = :id';
         $classes = DB::select($sql, ['id' => $data['schema_name']]);
-        //$classes = $classes->toArray();
-        //print_r($classes);
-        $viewData['modelClasses'] = $this->createJson($classes)['classes'];
-        $viewData['rels'] = $this->createJson($classes)['rels'];
+        $json = $this->createJson($classes);
+        $viewData['modelClasses'] = $json['classes'];
+        $viewData['rels'] = $json['rels'];
         return view('schema', $viewData);
     }
 
     private function createJson($classes) {
         $mClasses = [];
         $rels = [];
+        //fill mClasses with measures
         $this->createMeasures($classes, $mClasses); //mClasses change by reference
+        //fill mClasses with dimesions and rels
         $this->createDimensions($classes, $mClasses, $rels); //mClasses, rels change by reference 
         $data['classes'] = $mClasses;
         $data['rels'] = $rels;
@@ -68,7 +72,7 @@ class GenerateController extends Controller {
                 if (!$this->inArray('a_' . $c['value'], $mClasses)) {
                     array_push($mClasses, ['key' => 'a_' . $c['value'],
                         'items' => []]);
-                     $this->createRel($c, $rels);
+                    $this->createRel($c, $rels);
                 }
             }
         }
@@ -77,7 +81,7 @@ class GenerateController extends Controller {
 
     private function createRel($c, &$rels) {
         $measures = $this->findMeasure($c);
-       // $rels = [];
+        // $rels = [];
         foreach ($measures as $m) {
             array_push($rels, ['from' => "a_" . $c['value'], 'to' => "m_" . $m['value'], 'text' => "", 'toText' => ""]);
         }
@@ -127,12 +131,6 @@ class GenerateController extends Controller {
             if ($c['id'] == $id) {
                 return $c;
             }
-        }
-    }
-
-    private function isInArray($rels, $id) {
-        foreach ($rels as $r) {
-            
         }
     }
 
