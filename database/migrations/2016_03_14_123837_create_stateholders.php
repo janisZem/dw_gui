@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateThemeTable extends Migration {
+class CreateStateholders extends Migration {
 
     /**
      * Run the migrations.
@@ -11,9 +11,9 @@ class CreateThemeTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('themes', function (Blueprint $table) {
+        Schema::create('stateholders', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('name');
+            $table->string('title');
         });
     }
 
@@ -23,7 +23,9 @@ class CreateThemeTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('themes');
+        Schema::table('stateholders', function (Blueprint $table) {
+            Schema::drop('stateholders');
+        });
     }
 
 }
