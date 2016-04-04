@@ -73,7 +73,7 @@ $('#schema_name').typeahead(
 });
 
 function autoEntities(id) {
-
+/*
     var entitiesObj = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -86,10 +86,10 @@ function autoEntities(id) {
         highlight: true,
         minLength: 1
     },
-            {
-                name: 'entitiesObj',
-                source: entitiesObj
-            });
+    {
+        name: 'entitiesObj',
+        source: entitiesObj
+    });*/
 }
 
 
