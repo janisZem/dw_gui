@@ -77,10 +77,7 @@ function autoEntities(elem) {
     $.ajax({
         type: "POST",
         url: "get_suggestions",
-        data: 'keyword=' + val + '&theme=' + $('#theme_name').attr('data-value'),
-        beforeSend: function () {
-            $(".req-input").css("background", "#FFF url(pic/LoaderIcon.gif) no-repeat 165px");
-        },
+        data: 'keyword=' + val + '&schema=' + $('#schema_name').attr('data-value') + '&theme=' + $('#theme_name').attr('data-value'),
         success: function (data) {
             console.log(data);
             var html = '';
