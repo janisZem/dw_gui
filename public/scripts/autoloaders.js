@@ -72,24 +72,34 @@ $('#schema_name').typeahead(
     $('#schema_name').attr('data-value', data.id);
 });
 
-function autoEntities(id) {
-/*
-    var entitiesObj = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        // `states` is an array of state names defined in "The Basics"
-        local: entities
+function autoEntities(elem) {
+    var val = $(elem).val();
+    $.ajax({
+        type: "POST",
+        url: "get_suggestions",
+        data: 'keyword=' + val + '&theme=' + $('#theme_name').attr('data-value'),
+        beforeSend: function () {
+            $(".req-input").css("background", "#FFF url(pic/LoaderIcon.gif) no-repeat 165px");
+        },
+        success: function (data) {
+            console.log(data);
+            var html = '';
+            for (var i = 0; i < data.length; i++) {
+                html += '<div onclick="elementSelected(' + data[i].id + ', \'' + data[i].value + '\', \'' + $(elem).parent().parent().attr('id') + '\')">' + data[i].value + '</div>';
+            }
+            $("#suggesstion-box").show();
+            $("#suggesstion-box").addClass('tt-menu class-sugg');
+            $("#suggesstion-box").html(html);
+
+        }
     });
 
-    $('.req-input').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    },
-    {
-        name: 'entitiesObj',
-        source: entitiesObj
-    });*/
+}
+
+function elementSelected(id, name, parentId) {
+    $('.class-sugg').remove();
+    $('#' + parentId).children('div').children('input').first().val(name);
+    $('#' + parentId).attr('data-id', id);
 }
 
 

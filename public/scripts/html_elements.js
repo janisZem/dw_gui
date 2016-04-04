@@ -23,8 +23,9 @@ var HTML = {
      * function who draws some UML class input some value, for example, Qualifying Data
      */
     drawInput: function () {
-        return '<input style="width:150px; margin:3px; display: inline;" type="text" class="form-control typeahead req-input">'
-                + '<input style="width:30%; margin-top:3px;" onclick="MT.submitInput(this)" class="btn btn-default sbt-btn" type="submit" value="Submit">';
+        return '<input style="width:150px; margin:3px; display: inline;" onkeyup="autoEntities(this)" type="text" class="form-control req-input">'
+                + '<input style="width:30%; margin-top:3px;" onclick="MT.submitInput(this)" class="btn btn-default sbt-btn" type="submit" value="Submit">'
+                + '<div id="suggesstion-box"></div>';
     },
     /*
      * function who draws + button, which opens menu from UML cfg.js file

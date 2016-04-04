@@ -148,7 +148,7 @@ var MT = {
                 $('#req_master').append(HTML.newClass(html, id, className, parentID));
             } else {
                 $('#' + parentID).append(HTML.newClass(html, id, className, parentID));
-                autoEntities(id);
+                //autoEntities(id);
             }
         },
         delete: function (elem) {

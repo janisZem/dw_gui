@@ -16,6 +16,7 @@
 
 Route::post('create_schema', 'SchemaController@createSchema');
 Route::post('process', 'GenerateController@generateSchema');
+Route::post('get_suggestions', 'SuggestionsController@getSuggestions');
 
 /*
   |--------------------------------------------------------------------------
