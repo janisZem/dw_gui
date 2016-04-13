@@ -24,7 +24,7 @@
             </div>
             <input id="schema_name" class="form-control typeahead schema-names" type="text" placeholder="Project">
             <input id="theme_name" onblur="themseSelected()" class="form-control typeahead schema-names" type="text" placeholder="Themse">
-            <input id="st" class="form-control typeahead schema-names" type="text" placeholder="Stateholder">
+            <input id="st" class="form-control typeahead schema-names" type="text" placeholder="Stakeholder">
             <input id="bp" class="form-control typeahead schema-names" type="text" placeholder="Busness process">
             <input onclick="STORE.store()" class="btn btn-danger" type="submit" value="Save requirement">
             <hr>
