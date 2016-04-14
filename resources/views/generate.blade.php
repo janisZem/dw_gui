@@ -14,28 +14,28 @@
         <div class="main-content">
             <h3>Generate candidate schema</h3>
             <form action="<?php echo URL::to('/process');?>" method="post">
-                <label for="schema_chose">Select schema:</label>
+                <label for="schema_chose">Select theme:</label>
                 <div class="form-group">
                     <div class="dropdown">                        
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            Schemas
+                            Themes
                             <span class="caret"></span>
                         </button>
                         <ul id="schema_chose" class="dropdown-menu">
-                            <?php foreach ($schemas as $schema) { ?>
-                                <li><a data-value="<?php echo $schema['id']; ?>" onclick="setValue(this)"><?php echo $schema['title']; ?></a></li>  
+                            <?php foreach ($themes as $theme) { ?>
+                                <li><a data-value="<?php echo $theme['id']; ?>" onclick="setValue(this)"><?php echo $theme['name']; ?></a></li>  
                             <?php } ?>
                         </ul>
                     </div>
                 </div>
-                <input name="schema_name" id="schema_name" type="hidden" value="">
+                <input name="theme_name" id="theme_name" type="hidden" value="">
                 <button type="submit" class="btn btn-danger">Generate candidate schema</button>
             </form>
         </div>
         <script>
             function setValue(elem) {
                 $('#dropdownMenu1').text($(elem).text());
-                $('#schema_name').val($(elem).attr('data-value'));
+                $('#theme_name').val($(elem).attr('data-value'));
             }
         </script>
         <script src="js/jquery-1.11.3.js" type="text/javascript"></script>

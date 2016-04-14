@@ -13,7 +13,7 @@ class GenerateController extends Controller {
     private $simpleReqs = [];
 
     public function index() {
-        $data['schemas'] = \App\Schema_model::where('status', '01')->get();
+        $data['themes'] = \App\Themes_model::all();
         return view('generate', $data);
     }
 
@@ -24,8 +24,8 @@ class GenerateController extends Controller {
                 . '        , cl.parent_id '
                 . '     FROM classes c '
                 . 'LEFT JOIN classes_rels cl ON c.id = cl.child_id '
-                . '    WHERE c.schema_id = :id';
-        $classes = DB::select($sql, ['id' => $data['schema_name']]);
+                . '    WHERE c.theme_id = :id';
+        $classes = DB::select($sql, ['id' => $data['theme_name']]);
         $json = $this->createJson($classes);
         $viewData['modelClasses'] = $json['classes'];
         $viewData['rels'] = $json['rels'];
