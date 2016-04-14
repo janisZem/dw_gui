@@ -78,9 +78,8 @@ var MT = {
     },
     submitInput: function (elem) {
         var $elem = $(elem);
-        console.log($elem);
-        var val = $($elem.parent().children('span').children('input')[1]).val();
-        if (val === '') {
+        var val = $($elem.parent().children('.form-control')).val();
+        if (val == '') {
             alert('No value insert! Please insert some value.');
             return;
         }
@@ -88,8 +87,9 @@ var MT = {
         $elem.after(val);
         var id = $elem.parent().parent().attr('id');
         $elem.parent().parent().attr('data-value-' + id, val);
-        $elem.parent().children('span').children('input').remove();
-        $elem.remove();
+        $elem.parent().children('.form-control').remove();
+        elem.remove();
+        $('.class-sugg').remove();
     },
     submitDropDown: function (elem) {
         var $elem = $(elem);
