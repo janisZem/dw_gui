@@ -49,7 +49,7 @@ class GenerateController extends Controller {
             if ($c['type'] == 'quanData') {
                 if (!$this->inArray('m_' . $c['value'], $mClasses)) {
                     array_push($mClasses, ['key' => 'm_' . $c['value'],
-                        'items' => [array('name' => $c['value'] . "_id", 'iskey' => true, 'figure' => "Decision", 'color' => 'yellowgrad')]]);
+                        'text' => "m_" . $c['value']]);
                 }
             }
         }
@@ -71,7 +71,7 @@ class GenerateController extends Controller {
             if ($c['type'] == 'qualData') {
                 if (!$this->inArray('a_' . $c['value'], $mClasses)) {
                     array_push($mClasses, ['key' => 'a_' . $c['value'],
-                        'items' => []]);
+                        'text' => "a_" . $c['value']]);
                     $this->createRel($c, $rels);
                 }
             }
