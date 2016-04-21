@@ -72,8 +72,9 @@ class GenerateController extends Controller {
                 if (!$this->inArray('a_' . $c['value'], $mClasses)) {
                     array_push($mClasses, ['key' => 'a_' . $c['value'],
                         'text' => "a_" . $c['value']]);
-                    $this->createRel($c, $rels);
+                    
                 }
+                $this->createRel($c, $rels);
             }
         }
         return $mClasses;
