@@ -18,6 +18,7 @@ class GenerateController extends Controller {
     }
 
     public function generateSchema(Request $request) {
+
         $data = $request->all();
 
         $sql = '      SELECT c.* '
@@ -39,8 +40,10 @@ class GenerateController extends Controller {
         $this->createMeasures($classes, $mClasses); //mClasses change by reference
         //fill mClasses with dimesions and rels
         $this->createDimensions($classes, $mClasses, $rels); //mClasses, rels change by reference 
-
-        $this->connectMeasures($rels, $mClasses);
+        
+        app('App\Http\Controllers\AttrMerge')->merge('aaaa');
+        app('App\Http\Controllers\MeasMerge')->merge($rels, $mClasses);
+        
         $data['classes'] = $mClasses;
         $data['rels'] = $rels;
         return $data;
@@ -152,64 +155,4 @@ class GenerateController extends Controller {
         }
         return $childs;
     }
-
-    ///////////measure connection selecation//////
-    private function connectMeasures(&$rels, &$classes) {
-//        /print_r($classes);
-        $measures = [];
-        foreach ($classes as $c) {
-            if ($c['key'][0] == 'm') {
-                $class_rels = [];
-                foreach ($rels as $r) {
-                    if ($r['to'] == $c['key']) {
-                        array_push($class_rels, $r);
-                    }
-                }
-                array_push($measures, ['key' => $c['key'], 'rels' => $class_rels]);
-            }
-        }
-
-        foreach ($measures as $m1) {
-            foreach ($measures as $m2) {
-                if ($this->checkRelEquality($m1['rels'], $m2['rels']) && $m1 != $m2) {
-                    if (array_search($m2, $measures)) {
-                        if ($this->connectMeasuresAttr($classes, $m1, $m2, $measures)) {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private function checkRelEquality($a1, $a2) {
-        foreach ($a1 as $b1) {
-            $good = 0;
-            foreach ($a2 as $b2) {
-                if ($b1['from'] == $b2['from']) {
-                    $good = 1;
-                }
-            }
-            if (!$good) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private function connectMeasuresAttr(&$classes, $m1, $m2, &$measures) {
-        foreach ($classes as $key => $c) {
-            if ($c['key'] == $m1['key']) {
-                $classes[$key]['text'] .= '\\n' . $m2['key'];
-            }
-        }
-        foreach ($classes as $key => $elem) {
-            if ($elem['key'] == $m2['key']) {
-                unset($classes[$key]);
-                unset($measures[array_search($m2, $measures)]);
-                return true;
-            }
-        }
-    }
-
 }
