@@ -9,15 +9,40 @@ use DB;
 
 class AttrMerge extends Controller {
 
-    public function merge($param) {
+    public function merge(&$rels, &$mClasses) {
         $p = 'name';
-        $res = DB::connection('neo4j')->select('MATCH (n:class { title: \'' . $p . '\' })-[:hasAttr]-(neighbors) RETURN neighbors');
-        print_r($res);
-        //paskatīties vai atrībūta klasei ir relācija
-        //
-        //noskaidrot katra atribūta ontoloģijas klasi
-        //ja atribūts nav iekš hierrjijas un to klases sakrīt apbienot vienā elementā
-        
+
+        foreach ($mClasses as $c) {
+            if ($c['key'][0] == 'a') {
+                $hier_array = $this->find_hierarchies(substr($c['text'], 2));
+                $this->create_hierarchies($hier_array, $rels, $mClasses);
+            }
+        }
+
+    }
+
+    private function create_hierarchies($hier_array, &$rels, &$mClasses) {
+        foreach ($hier_array as $h) {
+            array_push($mClasses, ['key' => 'a_' . $h['text'],
+                'text' => "a_" . $h['text']]);
+            array_push($rels, ['from' => "a_" . $h['parent'], 'to' => "a_" . $h['text'], 'text' => "", 'toText' => ""]);
+        }
+    }
+
+    private function find_hierarchies($attr) {
+        $res2 = DB::connection('neo4j')->select('MATCH (n:class { title: \'' . $attr . '\' })-[:hasRel]->(neighbors) RETURN neighbors');
+        $hier_rels = [];
+        if (isset($res2[0])) {
+            array_push($hier_rels, ['text' => $res2[0][0]->title, 'parent' => $attr]);
+            while (isset($res2[0])) {
+                $parent = $res2[0][0]->title;
+                $res2 = DB::connection('neo4j')->select('MATCH (n:class { title: \'' . $res2[0][0]->title . '\' })-[:hasRel]->(neighbors) RETURN neighbors');
+                if (isset($res2[0])) {
+                    array_push($hier_rels, ['text' => $res2[0][0]->title, 'parent' => $parent]);
+                }
+            }
+        }
+        return $hier_rels;
     }
 
 }
