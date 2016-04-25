@@ -41,7 +41,7 @@ class GenerateController extends Controller {
         //fill mClasses with dimesions and rels
         $this->createDimensions($classes, $mClasses, $rels); //mClasses, rels change by reference 
         
-        app('App\Http\Controllers\AttrMerge')->merge('aaaa');
+        app('App\Http\Controllers\AttrMerge')->merge($rels, $mClasses);
         app('App\Http\Controllers\MeasMerge')->merge($rels, $mClasses);
         
         $data['classes'] = $mClasses;

@@ -79,10 +79,13 @@ function autoEntities(elem) {
         url: "get_suggestions",
         data: 'keyword=' + val + '&schema=' + $('#schema_name').attr('data-value') + '&theme=' + $('#theme_name').attr('data-value'),
         success: function (data) {
-            console.log(data);
+            var elems = [];
             var html = '';
             for (var i = 0; i < data.length; i++) {
-                html += '<div onclick="elementSelected(' + data[i].id + ', \'' + data[i].value + '\', \'' + $(elem).parent().parent().attr('id') + '\')">' + data[i].value + '</div>';
+                if (elems.indexOf(data[i].value) == -1) {
+                    html += '<div onclick="elementSelected(' + data[i].id + ', \'' + data[i].value + '\', \'' + $(elem).parent().parent().attr('id') + '\')">' + data[i].value + '</div>';
+                    elems.push(data[i].value);
+                }
             }
             $("#suggesstion-box").show();
             $("#suggesstion-box").addClass('tt-menu class-sugg');

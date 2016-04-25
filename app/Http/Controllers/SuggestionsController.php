@@ -12,19 +12,19 @@ class SuggestionsController extends Controller {
 
     public function getSuggestions(Request $request, $call = 0) {
         if ($request['schema'] == 'undefined' && $request['theme'] == 'undefined') {
-            $elems = \App\Class_model::where('value', 'like', "%" . $request['keyword'] . "%")->get();
+            $elems = \App\Class_model::where('value', 'like', "%" . $request['keyword'] . "%")->distinct()->get();
         } else if ($request['schema'] != 'undefined' && $request['theme'] == 'undefined') {
             $elems = \App\Class_model::where('value', 'like', "%" . $request['keyword'] . "%")
-                            ->where('schema_id', $request['schema'])->get();
+                            ->where('schema_id', $request['schema'])->distinct()->get();
         } else if ($request['theme'] != 'undefined' && $request['schema'] == 'undefined') {
             $elems = \App\Class_model::where('value', 'like', "%" . $request['keyword'] . "%")
-                            ->where('theme_id', $request['theme'])->get();
+                            ->where('theme_id', $request['theme'])->distinct()->get();
         } else {
             $elems = \App\Class_model::where('value', 'like', "%" . $request['keyword'] . "%")
                             ->where('theme_id', $request['theme'])
-                            ->where('schema_id', $request['schema'])->get();
+                            ->where('schema_id', $request['schema'])->distinct()->get();
         }
-        if (count($elems) == 0) {
+        if (count($elems) == 0) { //if no elems found call semantic search
             $elems = [];
             $semanticKeyWord = $this->semanticSearch($request);
             $request['keyword'] = $semanticKeyWord;
