@@ -87,7 +87,7 @@ class AttrMerge extends Controller {
                 $parent = $res2[0][0]->title;
                 $res2 = DB::connection('neo4j')->select('MATCH (n:class { title: \'' . $res2[0][0]->title . '\' })-[:hasRel]->(neighbors) RETURN neighbors');
                 if (isset($res2[0])) {
-                    array_push($hier_rels, ['text' => $res2[0][0]->title, 'parent' => $parent]);
+                    //array_push($hier_rels, ['text' => $res2[0][0]->title, 'parent' => $parent]);
                 }
             }
         }
