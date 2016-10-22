@@ -14,7 +14,7 @@ var cfg = [
         name: 'Simple Requirement',
         parent: ['req', 'complexReq'],
         values: null,
-        action: 'dropown'
+        action: null
     },
     {
         id: 'complexReq',
@@ -32,21 +32,21 @@ var cfg = [
     },
     {
         id: 'expr',
-        name: 'Expresion',
+        name: 'Expression',
         parent: ['simpleReq'],
         action: null,
         values: null
     },
     {
         id: 'simpleExpr',
-        name: 'Simple Expresion',
+        name: 'Simple Expression',
         parent: ['expr', 'simpleCond'],
         action: null,
         values: null
     },
     {
         id: 'complexExpr',
-        name: 'Complex Expresion',
+        name: 'Complex Expression',
         parent: ['expr'],
         action: null,
         values: null
