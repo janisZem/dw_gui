@@ -22,7 +22,7 @@
                 <ul class="dropdown-menu multi-level" role="menu">
                 </ul>
             </div>
-            <input id="schema_name" class="form-control typeahead schema-names" type="text" placeholder="Project">
+            <input id="schema_name" class="form-control typeahead schema-names" type="text" placeholder="Group">
             <input id="theme_name" onblur="themseSelected()" class="form-control typeahead schema-names" type="text" placeholder="Theme">
             <input id="st" class="form-control typeahead schema-names" type="text" placeholder="Stakeholder">
             <input id="bp" class="form-control typeahead schema-names" type="text" placeholder="Business process">

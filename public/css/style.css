@@ -1,5 +1,6 @@
 .container{
-    width:6000px !important;
+    //width:6000px !important;
+    float: left;
 
 }
 .dropdown-submenu {
@@ -62,7 +63,7 @@
     margin:5px;
     padding: 5px;
     border-style: solid;
-    border-color: #ddd;
+    border-color: black;
     border-width: 1px;
     border-radius: 4px 4px 0 0;
     -webkit-box-shadow: none;
@@ -110,4 +111,7 @@
 #suggesstion-box{
      position: absolute;
  
+}
+.btn-menu{
+    padding: 3px 6px;
 }

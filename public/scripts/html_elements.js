@@ -34,7 +34,7 @@ var HTML = {
         var className = 'btn-primary';
         return '    <div class="dropdown dropdown-menu-req">'
                 + '    <a id="dLabel" role="button" data-toggle="dropdown"'
-                + '       class="btn ' + className + '"'
+                + '       class="btn btn-menu ' + className + '"'
                 + '       onclick="MT.drawMenu(\'' + id + '\', \'' + cfgID + '\', \'' + postion + '\')" >'
                 + '        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'
                 + '    </a>'
@@ -43,6 +43,6 @@ var HTML = {
                 + '</div>';
     },
     drawDeleteButton: function () {
-        return '<a onclick="MT.CON.delete(this);" role="button" class="btn btn-info"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a>';
+        return '<a onclick="MT.CON.delete(this);" role="button" class="btn btn-menu btn-info"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a>';
     }
 };
